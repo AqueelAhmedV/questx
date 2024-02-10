@@ -27,7 +27,7 @@ Lib/
 Include/
 Scripts/
 
-__pycache__/
+**/__pycache__/
 
 bin/
 lib/
