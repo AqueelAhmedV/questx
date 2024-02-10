@@ -30,18 +30,19 @@ class User(models.Model):
     password = models.CharField(max_length=20, validators=[MinLengthValidator(8, "password should be minimum of 8 charectors")])
     date_of_birth = models.DateField("Date of birth")
     joined_on = models.DateTimeField("Join date")
+    user_phone = models.CharField(max_length=15, validators=[PhoneValidator])
+
+
+class UserProfile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     place_of_birth = models.CharField(max_length=512)
     place_of_residence = models.CharField(max_length=512)
-    user_phone = models.CharField(max_length=15, validators=[PhoneValidator])
-    members_gender_and_age = models.JSONField(default = list)
-    specialization = models.JSONField(name="field of specialization")
-    contribution_points = models.PositiveIntegerField(default=0)
-    no_of_nights = models.PositiveIntegerField(default=0)
-    no_of_days = models.PositiveIntegerField(default=0)
+    members_details = models.JSONField(default = list)
+    specialization = models.JSONField(name="field of specialization", default = list)
     hobby = models.JSONField(default = list)
     notices = models.JSONField(default = list)
-    expectations = models.CharField(max_length=512)
-    concern = models.CharField(max_length=512)
+    expectations = models.CharField()
+    concern = models.CharField()
 
 
 class CommunityManager(models.Model):
@@ -54,20 +55,6 @@ class CommunityManager(models.Model):
     location = models.CharField(max_length=512)
     organization = models.CharField(max_length=512)
 
-class Experience(models.Model):
-    exp_id = models.CharField(max_length=9, primary_key=True, default=generate_model_id('E'), editable=False)
-    agent_name = models.CharField(max_length=200)
-    agent_location = models.CharField(max_length=512)
-    agent_phone = models.CharField(max_length=15, validators=[PhoneValidator])
-    exp_type = models.CharField(max_length=10, choices=EXPERIENCE_TYPES)
-    exp_title = models.CharField(max_length=200)
-    exp_description = models.CharField(max_length=512, validators=[
-        MinLengthValidator(50, _('Please describe your task in atleast 50 characters'))
-    ])
-    exp_duration = models.PositiveIntegerField()
-    exp_preferred_time = models.CharField(max_length=10, choices=DAYNIGHT_CHOICES, default='day')
-
-                
 class Quest(models.Model):
     quest_id = models.CharField(max_length=9, primary_key=True, default=generate_model_id('Q'), editable=False)
     community_manager = models.ForeignKey(CommunityManager, on_delete=models.CASCADE)
