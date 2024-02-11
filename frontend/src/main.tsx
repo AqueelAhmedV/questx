@@ -10,7 +10,6 @@ import {
 import { BasicLayout } from './layouts/BasicLayout';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
-import { ThemeProvider } from '@material-tailwind/react';
 
 const router = createBrowserRouter([
   {
