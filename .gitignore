@@ -28,6 +28,7 @@ Include/
 Scripts/
 
 **/__pycache__/
+**/db.sqlite3
 
 bin/
 lib/
