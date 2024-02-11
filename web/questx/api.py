@@ -1,4 +1,4 @@
-from questx.models import Experience
+from questx.models import Experience, User
 from rest_framework import viewsets, permissions
 from .serializers import ExperienceSerializer
 
@@ -9,3 +9,9 @@ class ExperienceViewset(viewsets.ModelViewSet):
         permissions.AllowAny
     ]
     serializer_class = ExperienceSerializer
+
+class UserViewset(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
