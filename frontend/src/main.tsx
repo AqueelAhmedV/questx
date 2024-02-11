@@ -10,7 +10,7 @@ import {
 import { BasicLayout } from './layouts/BasicLayout';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
-import { Navbar } from '@material-tailwind/react';
+import { ThemeProvider } from '@material-tailwind/react';
 
 const router = createBrowserRouter([
   {
@@ -29,9 +29,9 @@ const router = createBrowserRouter([
 
 ReactDOM.render(
   <React.StrictMode>
-    <BasicLayout>
-      <RouterProvider router={router}/>
-    </BasicLayout>
+      <BasicLayout>
+        <RouterProvider router={router}/>
+      </BasicLayout>
   </React.StrictMode>,
   document.getElementById('root')
 )
