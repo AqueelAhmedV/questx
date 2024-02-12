@@ -165,7 +165,7 @@ export default function NavbarDefault(props) {
           </div>
         </div>
       </Collapse>
-      <Drawer open={isDrawerOpen} onClose={closeDrawer}>
+      <Drawer open={isDrawerOpen}  placement="right" onClose={closeDrawer}>
           <LoginSideBar isLogin={isLogin}/>
       </Drawer>
     </Navbar>

@@ -11,22 +11,26 @@ import {
 } from "@material-tailwind/react";
 
 
-const [isUser, setIsUser] = React.useState(true);
+export default function LoginSideBar({ isLogin }) {
 
-export default function LoginSideBar({isLogin}) {
+  const [isUser, setIsUser] = React.useState(true);
+
   return (
     <>
         <Card
           color="transparent"
           shadow={false}
-          className="h-[calc(100vh-2rem)] w-full p-4"
+          className="h-[calc(100vh-2rem)] w-full p-4 overflow-y-auto"
+          style={{
+            scrollbarWidth: 'none'
+          }}
         >
-          <div className="mb-2 flex items-center gap-4 p-4">
+          <div className="mb-2 flex items-center gap-4 px-4 py-2">
             <Typography variant="h5" color="blue-gray">
               QuestX
             </Typography>
           </div>
-          <Card className="h-50% mt-6 w-full">
+          <Card className="h-1/2 mt-2 w-full">
             <CardBody>
                 <Typography variant="h5" color="blue-gray" className="mb-2">
                     User {isLogin ? "Login": "SignUp"}
@@ -43,12 +47,12 @@ export default function LoginSideBar({isLogin}) {
               </Link>
             </CardFooter>
         </Card>
-        <Card className="max-h-70px mt-6 w-full">
+        <Card className=" mt-6 w-full">
             <CardBody>
                 <Typography variant="h5" color="blue-gray" className="mb-2">
                     Community Manager {isLogin ? "Login": "SignUp"}
                 </Typography>
-                <Typography >
+                <Typography>
                 The place is close to Barceloneta Beach and bus stop just 2 min by
                 </Typography>
             </CardBody>
