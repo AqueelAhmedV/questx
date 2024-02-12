@@ -8,7 +8,7 @@ export const BasicLayout = ({ children }: { [key: string]: any }) => {
           Header
         </div>
       </header> */}
-      <main className="flex-grow container mx-auto p-4">
+      <main className="flex-grow container mx-auto">
         {children}
       </main>
       {/* <footer className="bg-gray-800 text-white py-4">
