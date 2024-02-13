@@ -2,6 +2,8 @@
 import {
     Card,
     Input,
+    CardBody,
+    CardHeader,
     Checkbox,
     Button,
     Typography,
@@ -51,14 +53,22 @@ export const Register = () => {
 
     return (
         <div className="container">
-            <Card color="transparent" shadow={false} className="pt-5 w-max mx-auto">
-                <Typography variant="h4" color="blue-gray" className="w-max">
-                    Sign Up
-                </Typography>
-                <Typography color="gray" className="mt-1 font-normal w-max">
-                    Nice to meet you! Enter your details to Sign up.
-                </Typography>
-                <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit = {handleSubmit}>
+            <Card color="transparent" shadow className="my-2 p-5 w-max mx-auto">
+                <CardHeader
+                        color=""
+                        floated={false}
+                        shadow={false}
+                        className="m-0 grid place-items-center  text-center"
+                    >
+                    <Typography variant="h4" color="blue-gray" className="w-max">
+                        Sign Up
+                    </Typography>
+                    <Typography color="gray" className="mt-1 font-normal w-max">
+                        Nice to meet you! Enter your details to Sign up.
+                    </Typography>
+                </CardHeader>
+                <CardBody>
+                <form className="mt-3 mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit = {handleSubmit}>
                     <div className="mb-1 flex flex-col gap-4">
                         <div>
                             <Typography variant="h6" color="blue-gray" className="mb-1">
@@ -171,6 +181,8 @@ export const Register = () => {
                     </Link>
                     </Typography>
                 </form>
+                </CardBody>
+                
             </Card>
         </div>
   );
