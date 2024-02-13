@@ -7,12 +7,16 @@ import {
     Typography,
 } from "@material-tailwind/react";
 import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import ErrorMessage from "../components/ErrorMessage";
 
 
 export const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const location = useLocation();
+    const { userType } = location.state || {};
 
     const handleSubmit= (e) =>{
       e.preventDefault();
@@ -35,11 +39,11 @@ export const Login = () => {
 
     return (
         <div className="container">
-            <Card color="transparent" shadow={false}>
-                <Typography variant="h4" color="blue-gray">
+            <Card className="pt-5 mx-auto w-max" color="transparent" shadow={false}>
+                <Typography variant="h4" color="blue-gray" className="w-max">
                     Sign In
                 </Typography>
-                <Typography color="gray" className="mt-1 font-normal">
+                <Typography color="gray" className="w-max mt-1 font-normal">
                     Nice to meet you! Enter your details to Sign in.
                 </Typography>
                 <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit = {handleSubmit}>
@@ -75,16 +79,19 @@ export const Login = () => {
                     />
                     </div>
                     {error && (
-                        <p className="mt-4 text-red-500 text-sm">{error}</p>
+                        <ErrorMessage error = {error}/>
                     )}
                     <Button type="submit" className="mt-6" fullWidth disabled = {!isFormValid}>
                     Sign In
                     </Button>
                     <Typography color="gray" className="mt-4 text-center font-normal">
                     Dont have an account?{" "}
-                    <a href="#" className="font-medium text-gray-900">
+                    <Link to = '/register'
+                        state ={{userType}} 
+                        className="font-medium text-gray-900"
+                    >
                         Sign Up
-                    </a>
+                    </Link>
                     </Typography>
                 </form>
             </Card>

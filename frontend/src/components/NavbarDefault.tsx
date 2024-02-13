@@ -15,29 +15,24 @@ import LoginSideBar from "./LoginSideBar";
 export default function NavbarDefault(props) {
   const [openNav, setOpenNav] = useState(false);
   const [openSide, setOpenSide] = React.useState(0);
-  const [isLogin, setIsLogin] = useState(false);
   
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
  
   React.useEffect(() => {
+    const navFunction = () => window.innerWidth >= 960 && setOpenNav(false);
     window.addEventListener(
       "resize",
-      () => window.innerWidth >= 960 && setOpenNav(false),
+      navFunction,
     );
+    return () => {
+      window.removeEventListener('resize', navFunction);
+    } 
   }, []);
 
   const handleOpen = (value) => {
     setOpenSide(openSide === value ? 0 : value);
   };
  
-  const handleLoginClick = () => {
-    openDrawer();
-    setIsLogin(true);
-  }
-  const handleSignUpClick = () => {
-    openDrawer();
-    setIsLogin(false);
-  }
   const openDrawer = () => {
     setIsDrawerOpen(true);
   }
@@ -93,17 +88,9 @@ export default function NavbarDefault(props) {
             variant="gradient"
             size="sm"
             className="hidden lg:inline-block"
-            onClick = {handleLoginClick}
+            onClick = {openDrawer}
           >
-            <span>Login</span>
-          </Button>
-          <Button
-            variant="gradient"
-            size="sm"
-            className="hidden lg:inline-block"
-            onClick = {handleSignUpClick}
-          >
-            <span>SignUp</span>
+            <span>Get Started</span>
           </Button>
         </div>
         <IconButton
@@ -152,21 +139,15 @@ export default function NavbarDefault(props) {
           <div className="flex items-center gap-x-1">
             <Button
               fullWidth variant="gradient" size="sm" className=""
-              onClick = {handleLoginClick}
+              onClick = {openDrawer}
             >
-              <span>Login</span>
-            </Button>
-            <Button
-              fullWidth variant="gradient" size="sm" className=""
-              onClick = {handleSignUpClick}
-            >
-              <span>Sign Up</span>
+              <span>Get Started</span>
             </Button>
           </div>
         </div>
       </Collapse>
       <Drawer open={isDrawerOpen}  placement="right" onClose={closeDrawer}>
-          <LoginSideBar isLogin={isLogin}/>
+          <LoginSideBar/>
       </Drawer>
     </Navbar>
   );

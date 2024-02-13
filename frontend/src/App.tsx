@@ -1,6 +1,5 @@
 // @ts-nocheck
 import React from 'react'
-import logo from './logo.svg'
 import './App.css'
 import { BasicLayout } from './layouts/BasicLayout'
 import NavbarDefault from './components/NavbarDefault'
@@ -21,7 +20,7 @@ function App() {
 
   return (
     <div className="App h-100vh">
-        <NavbarDefault list = {[]} buttonList = {buttonList} />
+        <NavbarDefault list = {[]} />
     </div>
   )
 }

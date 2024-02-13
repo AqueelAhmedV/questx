@@ -33,7 +33,7 @@ ACCOUNT_TYPES = (
 
 # class AccountTypeValidator(BaseValidator):
 #     message = 'The selected account must be of type %(account_type)s.'
-#     code = 'invalid_account_type'
+#    code = 'invalid_account_type'
 
 #     def __init__(self, account_type, *args, **kwargs):
 #         self.account_type = account_type
