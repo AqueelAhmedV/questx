@@ -5,7 +5,7 @@ from django.core.validators import RegexValidator, MinLengthValidator, EmailVali
 from django.utils.translation import gettext as _
 from django.utils.crypto import get_random_string
 from django.core.exceptions import ValidationError
-from django.contrib.auth.models import User
+from accounts.models import CustomUser
 
 def generate_model_id(prefix):
     return prefix + get_random_string(8, allowed_chars='0123456789')
@@ -26,10 +26,7 @@ EXPERIENCE_TYPES = (
     ('activity', 'Activity/Event')
 )
 
-ACCOUNT_TYPES = (
-    ('member', 'Member'),
-    ('cm', 'Community Manager')
-)
+
 
 # class AccountTypeValidator(BaseValidator):
 #     message = 'The selected account must be of type %(account_type)s.'
@@ -64,9 +61,11 @@ ACCOUNT_TYPES = (
 class MemberProfile(models.Model):
     user_type = 'member'
     user = models.OneToOneField(
-        User, 
+        CustomUser, 
         related_name='member_profile',
         on_delete=models.CASCADE,
+        null=True,
+        blank=True
     )
     phone = models.CharField(max_length=15, validators=[PhoneValidator])
     date_of_birth = models.DateField("Date of birth")
@@ -93,11 +92,12 @@ class MemberProfile(models.Model):
 class ManagerProfile(models.Model):
     user_type = 'cm'
     user = models.OneToOneField(
-        User, 
+        CustomUser, 
         related_name='cm_profile',
         on_delete=models.CASCADE,
+        null=True,
+        blank=True
     )
-    cm_id = models.CharField(max_length=9, primary_key=True, editable=False, unique= True)
     name = models.CharField(max_length=200)
     email = models.EmailField(validators=[EmailValidator()])
     password = models.CharField(max_length=20, validators = [MinLengthValidator(8, "password should be minimum of 8 charectors")])

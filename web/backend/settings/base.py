@@ -25,14 +25,19 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-
     'whitenoise.runserver_nostatic',
-
     'django.contrib.staticfiles',
-
     'rest_framework',
     'corsheaders',
+    'knox',
+    'accounts'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'knox.auth.TokenAuthentication',
+    )
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -79,6 +84,7 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = "accounts.CustomUser"
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
