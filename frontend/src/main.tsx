@@ -10,6 +10,7 @@ import {
 import { BasicLayout } from './layouts/BasicLayout';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
+import { ExpForm } from './pages/ExpForm';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register/>
+  },
+  {
+    path: "/expForm",
+    element: <ExpForm/>
   }
 ]);
 

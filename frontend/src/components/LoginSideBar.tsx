@@ -11,9 +11,7 @@ import {
 } from "@material-tailwind/react";
 
 
-export default function LoginSideBar({ isLogin }) {
-
-  const [isUser, setIsUser] = React.useState(true);
+export default function LoginSideBar() {
 
   return (
     <>
@@ -30,36 +28,36 @@ export default function LoginSideBar({ isLogin }) {
               QuestX
             </Typography>
           </div>
-          <Card className="h-1/2 mt-2 w-full">
+          <Card className="min-h-1/2 mt-4 w-full">
             <CardBody>
                 <Typography variant="h5" color="blue-gray" className="mb-2">
-                    User {isLogin ? "Login": "SignUp"}
+                    User SignUp
                 </Typography>
                 <Typography>
-                The place is close to Barceloneta Beach and bus stop just 2 min by
+                  I create quests, and manage a community
                 </Typography>
             </CardBody>
             <CardFooter className="pt-0">
-              <Link to = {isLogin ? ('/login'):('/register')}>
-                <Button onClick= {()=> setIsUser(true)}>
-                  {isLogin? "LogIn" : "SignUp"}
+              <Link to = '/register' state = { { userType : "member"}}>
+                <Button>
+                  Proceed
                 </Button>
               </Link>
             </CardFooter>
         </Card>
-        <Card className=" mt-6 w-full">
+        <Card className="min-h-1/2 mt-6 w-full">
             <CardBody>
                 <Typography variant="h5" color="blue-gray" className="mb-2">
-                    Community Manager {isLogin ? "Login": "SignUp"}
+                    Community Manager Sign Up
                 </Typography>
                 <Typography>
-                The place is close to Barceloneta Beach and bus stop just 2 min by
+                  I am looking for quests/local experience packages
                 </Typography>
             </CardBody>
             <CardFooter className="pt-0">
-            <Link to = {isLogin ? ('/login'):('/register')}>
-                <Button onClick= {()=> setIsUser(false)}>
-                  {isLogin? "LogIn" : "SignUp"}
+            <Link to = '/register' state = { { userType : "cm"}} >
+                <Button>
+                  Proceed
                 </Button>
               </Link>
             </CardFooter>
