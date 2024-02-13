@@ -11,6 +11,7 @@ import { BasicLayout } from './layouts/BasicLayout';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { ExpForm } from './pages/ExpForm';
+import { AppProvider } from './contexts/AppContext';
 
 const router = createBrowserRouter([
   {
@@ -33,9 +34,11 @@ const router = createBrowserRouter([
 
 ReactDOM.render(
   <React.StrictMode>
-      <BasicLayout>
-        <RouterProvider router={router}/>
-      </BasicLayout>
+    <AppProvider>
+        <BasicLayout>
+          <RouterProvider router={router}/>
+        </BasicLayout>
+    </AppProvider>
   </React.StrictMode>,
   document.getElementById('root')
 )

@@ -6,6 +6,10 @@ export const logoFilePath: string = "logo/logo.svg"
 
 const logoPath: string = `${protocol}//${host}:${backendPort}/${staticPath}/${logoFilePath}`
 
+// needed?
+export const BACKEND_BASE_URL = import.meta.env.DEV ? 'http://localhost:8000' : ''
+
+
 // if (process.env.NODE_ENV === "development") {
 //   export const logoPathNew = logoPath
 
