@@ -1,6 +1,8 @@
 // @ts-nocheck
 import {
     Card,
+    CardHeader,
+    CardBody,
     Input,
     Checkbox,
     Button,
@@ -39,61 +41,71 @@ export const Login = () => {
 
     return (
         <div className="container">
-            <Card className="pt-5 mx-auto w-max" color="transparent" shadow={false}>
-                <Typography variant="h4" color="blue-gray" className="w-max">
-                    Sign In
-                </Typography>
-                <Typography color="gray" className="w-max mt-1 font-normal">
-                    Nice to meet you! Enter your details to Sign in.
-                </Typography>
-                <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit = {handleSubmit}>
-                    <div className="mb-1 flex flex-col gap-6">
+            <Card className="my-2 p-5 mx-auto w-max" color="transparent" shadow>
+                <CardHeader
+                        color=""
+                        floated={false}
+                        shadow={false}
+                        className="m-0 grid place-items-center  text-center"
+                    >
+                    <Typography variant="h4" color="blue-gray" className="w-max">
+                        Sign Up
+                    </Typography>
+                    <Typography color="gray" className="mt-1 font-normal w-max">
+                        Nice to meet you! Enter your details to Sign up.
+                    </Typography>
+                </CardHeader>
+                <CardBody >
+                    <form className="mt-3 mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit = {handleSubmit}>
+                        <div className="mb-1 flex flex-col gap-6">
+                            <Typography variant="h6" color="blue-gray" className="-mb-3">
+                            Your Email
+                            </Typography>
+                            <Input
+                            name = "email"
+                            value = {email}
+                            size="lg"
+                            placeholder="name@mail.com"
+                            className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                            labelProps={{
+                                className: "before:content-none after:content-none",
+                            }}
+                            onChange = {(e) => {setEmail(e.target.value)}}
+                            />
                         <Typography variant="h6" color="blue-gray" className="-mb-3">
-                        Your Email
+                            Password
                         </Typography>
                         <Input
-                        name = "email"
-                        value = {email}
-                        size="lg"
-                        placeholder="name@mail.com"
-                        className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                        labelProps={{
+                            name = "password"
+                            value = {password}
+                            type="password"
+                            size="lg"
+                            placeholder="********"
+                            className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                            labelProps={{
                             className: "before:content-none after:content-none",
-                        }}
-                        onChange = {(e) => {setEmail(e.target.value)}}
+                            }}
+                            onChange = {(e) => {setPassword(e.target.value)}}
                         />
-                    <Typography variant="h6" color="blue-gray" className="-mb-3">
-                        Password
-                    </Typography>
-                    <Input
-                        name = "password"
-                        value = {password}
-                        type="password"
-                        size="lg"
-                        placeholder="********"
-                        className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                        labelProps={{
-                        className: "before:content-none after:content-none",
-                        }}
-                        onChange = {(e) => {setPassword(e.target.value)}}
-                    />
-                    </div>
-                    {error && (
-                        <ErrorMessage error = {error}/>
-                    )}
-                    <Button type="submit" className="mt-6" fullWidth disabled = {!isFormValid}>
-                    Sign In
-                    </Button>
-                    <Typography color="gray" className="mt-4 text-center font-normal">
-                    Dont have an account?{" "}
-                    <Link to = '/register'
-                        state ={{userType}} 
-                        className="font-medium text-gray-900"
-                    >
-                        Sign Up
-                    </Link>
-                    </Typography>
-                </form>
+                        </div>
+                        {error && (
+                            <ErrorMessage error = {error}/>
+                        )}
+                        <Button type="submit" className="mt-6" fullWidth disabled = {!isFormValid}>
+                        Sign In
+                        </Button>
+                        <Typography color="gray" className="mt-4 text-center font-normal">
+                        Dont have an account?{" "}
+                        <Link to = '/register'
+                            state ={{userType}} 
+                            className="font-medium text-gray-900"
+                        >
+                            Sign Up
+                        </Link>
+                        </Typography>
+                    </form>
+                </CardBody>
+                
             </Card>
         </div>
   );
