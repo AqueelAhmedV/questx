@@ -70,9 +70,8 @@ export function ExpForm() {
   
   return (
     <div className="container">
-            <Card color="transparent" shadow={true} className="mt-2 p-5 w-max mx-auto">
+            <Card color="transparent" shadow={true} className="my-2 mx-auto w-full max-w-[27rem]">
                 <CardHeader
-                    color=""
                     floated={false}
                     shadow={false}
                     className="m-0 grid place-items-center  text-center"
@@ -80,7 +79,7 @@ export function ExpForm() {
                     <Typography variant="h4" color="blue-gray" className="w-max">
                         Sign Up
                     </Typography>
-                    <Typography color="gray" className="mt-1 font-normal w-max">
+                    <Typography color="gray" className="mt-1 font-normal">
                         Nice to meet you! Enter your details to Sign up.
                     </Typography>
                 </CardHeader>
@@ -109,7 +108,7 @@ export function ExpForm() {
                             }}
                         >
                             <TabPanel value ="task" className="p-0">
-                                <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit = {handleSubmit}>
+                                <form className="mt-12 flex flex-col gap-4 " onSubmit = {handleSubmit}>
                                     <div className="mb-1 flex flex-col gap-4">
                                         <div>
                                             <Typography variant="h6" color="blue-gray" className="mb-1">
@@ -261,7 +260,7 @@ export function ExpForm() {
                                 </form>
                             </TabPanel>
                             <TabPanel value ="activity" className="p-0">
-                            <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit = {handleSubmit}>
+                            <form className="mt-12 flex flex-col gap-4" onSubmit = {handleSubmit}>
                                     <div className="mb-1 flex flex-col gap-4">
                                         <div>
                                             <Typography variant="h6" color="blue-gray" className="mb-1">
