@@ -1,5 +1,5 @@
 
-# Questx App
+# Questx App (Netropolis Hackathon Submission)
 
 ## Stack
 
@@ -40,7 +40,7 @@ python -m virtualenv venv
 ```
 .\venv\Scripts\activate.ps1
 ```
-**_NOTE:_** `Set-ExecutionPolicy Restricted -Scope CurrentUser`
+**_NOTE:_** `Set-ExecutionPolicy Unrestricted -Scope CurrentUser`
 
 - Install Dependencies
 
