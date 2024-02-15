@@ -41,22 +41,21 @@ export const Login = () => {
 
     return (
         <div className="container">
-            <Card className="my-2 p-5 mx-auto w-max" color="transparent" shadow>
+            <Card className="my-2 mx-auto w-max max-w-full" color="transparent" shadow>
                 <CardHeader
-                        color=""
                         floated={false}
                         shadow={false}
                         className="m-0 grid place-items-center  text-center"
                     >
                     <Typography variant="h4" color="blue-gray" className="w-max">
-                        Sign Up
+                        Sign In
                     </Typography>
                     <Typography color="gray" className="mt-1 font-normal w-max">
-                        Nice to meet you! Enter your details to Sign up.
+                        Nice to meet you! Enter your details to Sign in.
                     </Typography>
                 </CardHeader>
                 <CardBody >
-                    <form className="mt-3 mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit = {handleSubmit}>
+                    <form className="mt-3 mb-2 w-80 max-w-screen-lg sm:w-calc(100vw-2rem)" onSubmit = {handleSubmit}>
                         <div className="mb-1 flex flex-col gap-6">
                             <Typography variant="h6" color="blue-gray" className="-mb-3">
                             Your Email

@@ -53,9 +53,8 @@ export const Register = () => {
 
     return (
         <div className="container">
-            <Card color="transparent" shadow className="my-2 p-5 w-max mx-auto">
+            <Card color="transparent" shadow className="my-2  w-max mx-auto max-w-full">
                 <CardHeader
-                        color=""
                         floated={false}
                         shadow={false}
                         className="m-0 grid place-items-center  text-center"
@@ -155,7 +154,7 @@ export const Register = () => {
                                 type="password"
                                 size="lg"
                                 placeholder="********"
-                                className=" border-t-blue-gray-200 focus:border-t-gray-900"
+                                className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                                 labelProps={{
                                 className: "before:content-none after:content-none",
                                 }}
