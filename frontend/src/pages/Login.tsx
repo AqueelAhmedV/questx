@@ -40,7 +40,7 @@ export const Login = () => {
     }
 
     return (
-        <div className="container">
+        <div className="container mx-auto">
             <Card className="my-2 mx-auto w-max max-w-full" color="transparent" shadow>
                 <CardHeader
                         floated={false}

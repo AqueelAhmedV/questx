@@ -10,16 +10,7 @@ import { Drawer } from '@material-tailwind/react'
 
 function App() {
 
-  const buttonList = [
-    {
-      text : "Log In",
-      link : '/login'
-    },
-    {
-      text : 'Sign Up',
-      link : '/register'
-    }
-  ]
+  
 
   const [openSide, setOpenSide] = React.useState(0);
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
@@ -29,7 +20,7 @@ function App() {
   const closeDrawer = () => setIsDrawerOpen(false);
   return (
     <div className="h-[100vh] bg-[url('/../public/landing-bg.jpg')] bg-cover bg-right App">
-        <NavbarDefault list = {[]} openDrawer= {openDrawer} />
+        <NavbarDefault list = {[]} openDrawer= {openDrawer} isLoggedIn= {false} />
         <Drawer open={isDrawerOpen}  placement="right" onClose={closeDrawer}>
           <LoginSideBar/>
         </Drawer>

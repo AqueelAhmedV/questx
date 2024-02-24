@@ -9,8 +9,9 @@ import {
   IconButton,
   Drawer,
 } from "@material-tailwind/react";
+import ProfileMenu from "./ProfileMenu";
 
-import LoginSideBar from "./LoginSideBar";
+
  
 export default function NavbarDefault(props) {
   const [openNav, setOpenNav] = useState(false);
@@ -75,16 +76,25 @@ export default function NavbarDefault(props) {
             {navList}
           </ul>
         </div>
-        <div className="flex items-center gap-x-1">
-          <Button
-            variant="gradient"
-            size="sm"
-            className="hidden lg:inline-block"
-            onClick = {props.openDrawer}
-          >
-            <span>Join Us</span>
-          </Button>
-        </div>
+        <div className="flex items-center">
+        {props.isLoggedIn ? 
+          (
+              <ProfileMenu profileMenuItems= {props.profileMenuItems}/>
+
+          ):
+          (
+            <div className="flex items-center gap-x-1">
+              <Button
+                variant="gradient"
+                size="sm"
+                className="hidden lg:inline-block"
+                onClick = {props.openDrawer}
+              >
+                <span>Join Us</span>
+              </Button>
+            </div>
+          )
+        }
         <IconButton
           variant="text"
           className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
@@ -122,20 +132,27 @@ export default function NavbarDefault(props) {
             </svg>
           )}
         </IconButton>
+        </div>
+        
+
       </div>
       <Collapse open={openNav}>
         <div className="container mx-auto">
           <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
             {navList}
           </ul>
-          <div className="flex items-center gap-x-1">
-            <Button
-              fullWidth variant="gradient" size="sm" className=""
-              onClick = {props.openDrawer}
-            >
-              <span>Join Us</span>
-            </Button>
-          </div>
+          {
+            !props.isLoggedIn ? (
+              <div className="flex items-center gap-x-1">
+                <Button
+                  fullWidth variant="gradient" size="sm" className=""
+                  onClick = {props.openDrawer}
+                >
+                  <span>Join Us</span>
+                </Button>
+              </div>
+            ): null
+          }
         </div>
       </Collapse>
     </Navbar>

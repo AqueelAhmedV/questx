@@ -61,7 +61,7 @@ export const Register = () => {
     }
 
     return (
-        <div className="container">
+        <div className="container mx-auto">
             <Card color="transparent" shadow className="my-2  w-max mx-auto max-w-full">
                 <CardHeader
                         floated={false}
