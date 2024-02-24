@@ -12,6 +12,7 @@ import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { ExpForm } from './pages/ExpForm';
 import { AppProvider } from './contexts/AppContext';
+import UserLanding from './pages/UserLanding';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: "/expForm",
     element: <ExpForm/>
+  },
+  {
+    path: "/userLanding",
+    element: <UserLanding/>
   }
 ]);
 
