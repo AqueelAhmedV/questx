@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { registerApi } from '../api/authApi';
 
   
   // Create the AuthContext
@@ -14,13 +15,21 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
   };
   
   // AuthProvider component
-  export const AuthProvider: React.FC = ({ children }) => {
+  export const AuthProvider: React.FC<ContextProviderProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
   
     // Simulate authentication
     const login = (userData: User) => {
+      
       setUser(userData);
     };
+
+    const register = (userData: User) => {
+      registerApi(userData)
+      .then((d) => {
+        console.log('inside context', d)
+      }).catch(console.log)
+    }
   
     const logout = () => {
       setUser(null);
@@ -30,7 +39,7 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
     useEffect(() => {
       const savedUser = localStorage.getItem('user');
       if (savedUser) {
-        setUser(JSON.parse(savedUser));
+        setUser(JSON.parse(savedUser) as User);
       }
     }, []);
   
@@ -44,7 +53,7 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
     }, [user]);
   
     return (
-      <AuthContext.Provider value={{ user, login, logout }}>
+      <AuthContext.Provider value={{ user, login, logout, register }}>
         {children}
       </AuthContext.Provider>
     )

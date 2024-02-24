@@ -5,7 +5,7 @@ const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 
 export const useProfile = () => useContext(ProfileContext);
 
-export const ProfileProvider: React.FC = ({ children }) => {
+export const ProfileProvider: React.FC<ContextProviderProps> = ({ children }) => {
   const [profile, setProfile] = useState<UserProfile<User> | null>(null);
 
   // Define functions to update profile data, fetch profile data, etc.

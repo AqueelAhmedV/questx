@@ -36,3 +36,5 @@ lib/
 lib64
 share/
 include
+
+web/.env

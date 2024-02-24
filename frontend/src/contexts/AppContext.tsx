@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { ChildContextProvider } from 'react';
 import { AuthProvider } from './AuthContext';
 import { ProfileProvider } from './ProfileContext';
 
-export const AppProvider: React.FC = ({ children }) => {
+export const AppProvider: React.FC<ContextProviderProps> = ({ children }) => {
   return (
     <AuthProvider>
       <ProfileProvider>

@@ -1,3 +1,4 @@
+from django.conf import ENVIRONMENT_VARIABLE
 from rest_framework import serializers
 from .models import CustomUser, LoginModel
 from django.contrib.auth import authenticate
@@ -16,6 +17,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = ('first_name', 'last_name', 'email', 'password', 'user_type')
         extra_kwargs = { 'password': {'write_only': True} }
 
+    
+    from decouple import config
+    print(config('GEMINI_API_KEY'))
+
     def create(self, validated_data):
         user = CustomUser.objects.create_user(
             validated_data['email'],
@@ -24,7 +29,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name']
         )
-        print(user)
+        print(user, )
         return user
     
 # Login Serializer

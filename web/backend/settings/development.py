@@ -1,3 +1,4 @@
+from django.conf.global_settings import CSRF_TRUSTED_ORIGINS
 from .base import *
 
 SECRET_KEY = '@ve-_t4@hn%dv8v_z75+33n@kz04wo5rk=tixitqn7ao-yt3p'
@@ -10,6 +11,8 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://127.0.0.1:3000',
 ]
+
+CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS
 
 STATICFILES_DIRS = [
   BASE_DIR / 'static-dev',

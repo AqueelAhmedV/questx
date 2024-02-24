@@ -8,6 +8,11 @@ interface User {
     user_type: UserType
 }
 
+interface RegisterResponse {
+    user: Partial<User>,
+    token: string
+}
+
 interface MemberProfile {
 
 }

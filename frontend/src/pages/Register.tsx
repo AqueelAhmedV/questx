@@ -11,6 +11,7 @@ import {
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
+import { useAuth } from "../contexts/AuthContext";
 
 
 export const Register = () => {
@@ -28,16 +29,24 @@ export const Register = () => {
         password2 : ""
     });
     const location = useLocation();
-    const { userType } = location.state || {};
+    const { userType } = location?.state as UserType;
+
+    const auth = useAuth();
 
     const handleSubmit= (e) =>{
       e.preventDefault();
       if(formData.password2 !== formData.password){
-        setError((prevState) => ({...prevState, password2 : "passwords should match"}));
+        return setError((prevState) => ({...prevState, password2 : "passwords should match"}));
       }
       else{
         setError((prevState) => ({...prevState, password2 : ""}))
-        //backend code
+        auth.register({
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            email: formData.email,
+            user_type: userType,
+            password: formData.password
+        })
       }
       
     }
