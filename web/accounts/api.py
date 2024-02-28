@@ -1,4 +1,4 @@
-from django.db.migrations import serializer
+
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from knox.models import AuthToken

@@ -26,5 +26,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/', include('accounts.urls')),
     path('api/', include('questx.urls')),
+    path('api/search/', include('quest_search.urls')),
     re_path(r'^.*', TemplateView.as_view(template_name=str(settings.REACT_BASE_TEMPLATE))),
 ]

@@ -22,7 +22,9 @@ class QuestViewset(viewsets.ModelViewSet):
         return self.request.user.cm_profile.quests.all()
     
     def perform_create(self, serializer):
+        self.request
         serializer.save(cm=self.request.user.cm_profile)
+        
     
     
 

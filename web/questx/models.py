@@ -5,6 +5,7 @@ from django.core.validators import RegexValidator, MinLengthValidator, EmailVali
 from django.utils.translation import gettext as _
 from django.utils.crypto import get_random_string
 from django.core.exceptions import ValidationError
+from requests import delete
 from accounts.models import CustomUser
 
 def generate_model_id(prefix):
@@ -26,36 +27,6 @@ EXPERIENCE_TYPES = (
     ('activity', 'Activity/Event')
 )
 
-
-
-# class AccountTypeValidator(BaseValidator):
-#     message = 'The selected account must be of type %(account_type)s.'
-#    code = 'invalid_account_type'
-
-#     def __init__(self, account_type, *args, **kwargs):
-#         self.account_type = account_type
-#         super().__init__(*args, **kwargs)
-
-#     def __call__(self, value):
-#         if value.account_type != self.account_type:
-#             raise ValidationError(
-#                 self.message % {'account_type': self.account_type},
-#                 code=self.code,
-#             )
-
-# class Account(models.Model):
-#     account_id = models.CharField(max_length=9, primary_key=True, editable=False, unique= True)
-#     account_type = models.CharField(max_length=5, choices=ACCOUNT_TYPES)
-#     name = models.CharField(max_length=200)
-#     email = models.EmailField(validators=[EmailValidator()])
-#     password = models.CharField(max_length=20, validators=[MinLengthValidator(8, "password should be minimum of 8 charectors")])
-#     joined_on = models.DateTimeField(name="Join date", auto_now_add=True)
-    
-#     def save(self, *args, **kwargs):
-#         # Generate a new custom ID if it's not already set
-#         if not self.account_id:
-#             self.account_id = generate_model_id(self.account_type.capitalize())
-#         super().save(*args, **kwargs)
 
 
 class MemberProfile(models.Model):
@@ -92,15 +63,12 @@ class MemberProfile(models.Model):
 class ManagerProfile(models.Model):
     user_type = 'cm'
     user = models.OneToOneField(
-        CustomUser, 
+        CustomUser,
         related_name='cm_profile',
         on_delete=models.CASCADE,
         null=True,
         blank=True
     )
-    name = models.CharField(max_length=200)
-    email = models.EmailField(validators=[EmailValidator()])
-    password = models.CharField(max_length=20, validators = [MinLengthValidator(8, "password should be minimum of 8 charectors")])
     joined_on = models.DateTimeField("Join date", auto_now_add=True)
     location = models.CharField(max_length=512)
     organization = models.CharField(max_length=512)
@@ -116,21 +84,6 @@ class ManagerProfile(models.Model):
         super().save(*args, **kwargs)
 
 
-class Quest(models.Model):
-    quest_id = models.CharField(max_length=9, primary_key=True, editable=False, unique= True)
-    cm = models.ForeignKey(ManagerProfile, related_name='quests', on_delete=models.CASCADE, default=None)
-    quest_title = models.CharField(max_length=200)
-    quest_description = models.CharField(max_length=512, validators=[
-        MinLengthValidator(20, _("Description should be minimum 20 characters"))
-    ])
-    quest_duration = models.PositiveIntegerField()
-    quest_tags = models.JSONField(default=list)
-    def save(self, *args, **kwargs):
-        # Generate a new custom ID if it's not already set
-        if not self.quest_id:
-            self.quest_id = generate_model_id('Q')
-        super().save(*args, **kwargs)
-
 class Experience(models.Model):
     exp_id = models.CharField(max_length=9, primary_key=True, editable=False, unique= True)
     agent_name = models.CharField(max_length=200)
@@ -143,7 +96,7 @@ class Experience(models.Model):
     ])
     exp_duration = models.PositiveIntegerField()
     exp_preferred_time = models.CharField(max_length=10, choices=DAYNIGHT_CHOICES, default='day')
-    quest = models.ForeignKey(Quest, related_name='experiences', on_delete=models.CASCADE, default=None, blank=True, null=True)
+    quest_id = models.CharField(max_length=10, blank=True, null=True)
     def save(self, *args, **kwargs):
         # Generate a new custom ID if it's not already set
         if not self.exp_id:
@@ -151,3 +104,71 @@ class Experience(models.Model):
         super().save(*args, **kwargs)
 
 
+
+class ExperienceValidator(BaseValidator):
+    invalid_message = 'Invalid Experience Id(s)'
+
+    def __init__(self, limit_value=None):
+        super().__init__(limit_value)
+
+    def __call__(self, value):
+        try:
+            experiences = Experience.objects.filter(exp_id__in=value)
+            if len(experiences) != len(value):
+                raise ValidationError(self.invalid_message)
+        except Experience.DoesNotExist:
+            raise ValidationError(self.invalid_message)
+
+
+def get_exp_choices():
+    exps = Experience.objects.all()
+    exp_id_choices = list()
+    for e in exps:
+        exp_id_choices.append((e.exp_id, e.exp_title)) 
+    return tuple(exp_id_choices)
+
+
+class Quest(models.Model):
+    quest_id = models.CharField(max_length=9, primary_key=True, editable=False, unique= True)
+    cm = models.ForeignKey(ManagerProfile, related_name='quests', on_delete=models.CASCADE, default=None)
+    quest_title = models.CharField(max_length=200)
+    quest_description = models.CharField(max_length=512, validators=[
+        MinLengthValidator(20, _("Description should be minimum 20 characters"))
+    ])
+    quest_duration = models.PositiveIntegerField()
+    quest_tags = models.JSONField(default=list, blank=True, null=True)
+    exp_ids = models.JSONField(default=list, validators=[
+        ExperienceValidator()
+    ], help_text=get_exp_choices())
+
+    def delete(self) -> tuple[int, dict[str, int]]:
+        Experience.objects.filter(exp_id__in=self.exp_ids).update(quest_id=None)
+
+        return super().delete()
+
+    def save(self, *args, **kwargs):
+        exps = Experience.objects.filter(exp_id__in=self.exp_ids)
+        
+        for exp in exps:
+            if exp.quest_id and self.quest_id and exp.quest_id != self.quest_id:
+                raise ValidationError(f'Experience ({exp.exp_id}) already assigned to quest ({exp.quest_id})')
+
+        if not self.quest_id:
+            self.quest_id = generate_model_id('Q')
+
+        for exp in exps:
+            if not exp.quest_id:
+                exp.quest_id = self.quest_id
+                exp.save()
+
+        super().save(*args, **kwargs)
+        
+        from quest_search.tasks import embed_and_store_quest
+        exps = [{ 'exp_title': e.exp_title, 'exp_description': e.exp_description, 'exp_type': e.exp_type } for e in exps]
+        
+        embed_and_store_quest(self.quest_id, self.quest_title, self.quest_description, exps)
+
+        
+        
+        
+        

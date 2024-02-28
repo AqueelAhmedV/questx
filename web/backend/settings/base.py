@@ -19,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # Application definition
 
 INSTALLED_APPS = [
-    'questx.apps.QuestxConfig',
+    'questx',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -30,7 +30,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'knox',
-    'accounts'
+    'accounts',
+    'quest_search'
 ]
 
 REST_FRAMEWORK = {
