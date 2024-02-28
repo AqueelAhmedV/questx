@@ -5,7 +5,7 @@ import { BACKEND_BASE_URL } from '../constants';
 
 export async function loginApi(email: string, password: string, userType: UserType) {
     try {
-        const response = await axios.post(`${BACKEND_BASE_URL}/login/`, { email, password });
+        const response = await axios.post(`${BACKEND_BASE_URL}/login/`, { email, password, user_type: userType });
         return response.data;
     } catch (error) {
         throw error;

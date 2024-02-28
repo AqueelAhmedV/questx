@@ -13,6 +13,9 @@ import { Register } from './pages/Register';
 import { ExpForm } from './pages/ExpForm';
 import { AppProvider } from './contexts/AppContext';
 import UserLanding from './pages/UserLanding';
+import { QueryClient, QueryClientProvider } from 'react-query'
+
+const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
   {
@@ -40,9 +43,11 @@ const router = createBrowserRouter([
 ReactDOM.render(
   <React.StrictMode>
     <AppProvider>
+      <QueryClientProvider client={queryClient}>
         <BasicLayout>
           <RouterProvider router={router}/>
         </BasicLayout>
+        </QueryClientProvider>
     </AppProvider>
   </React.StrictMode>,
   document.getElementById('root')

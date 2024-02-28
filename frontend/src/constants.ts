@@ -1,3 +1,14 @@
+
+import {
+    UserCircleIcon,
+    Cog6ToothIcon,
+    InboxArrowDownIcon,
+    LifebuoyIcon,
+    PowerIcon
+  } from "@heroicons/react/24/solid";
+
+
+
 export const protocol: string = window.location.protocol
 export const host: string = window.location.hostname
 export const backendPort: string = "8000"
@@ -9,6 +20,30 @@ const logoPath: string = `${protocol}//${host}:${backendPort}/${staticPath}/${lo
 // needed?
 export const BACKEND_BASE_URL = import.meta.env.DEV ? 'http://localhost:8000/api' : ''
 
+
+
+export const profileMenuItems = [
+    {
+      label: "My Profile",
+      icon: UserCircleIcon,
+    },
+    {
+      label: "Edit Profile",
+      icon: Cog6ToothIcon,
+    },
+    {
+      label: "Inbox",
+      icon: InboxArrowDownIcon,
+    },
+    {
+      label: "Help",
+      icon: LifebuoyIcon,
+    },
+    {
+      label: "Sign Out",
+      icon: PowerIcon,
+    },
+  ];
 
 // if (process.env.NODE_ENV === "development") {
 //   export const logoPathNew = logoPath

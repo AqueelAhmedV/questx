@@ -23,3 +23,15 @@ interface ManagerProfile {
 
 // change if userType more than 2
 type UserProfile<T extends User> = T['user_type'] extends 'member' ? MemberProfile : ManagerProfile;
+
+type QuestSearchResponseItem = {
+    quest_id: string,
+    quest_title: string,
+    quest_description: string,
+    quest_location: string,
+    score: number
+}
+
+type QuestSearchResponse = {
+    quests: Array<QuestSearchResponseItem>
+}

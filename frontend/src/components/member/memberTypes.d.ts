@@ -1,0 +1,4 @@
+
+type QuestModalProps = {
+    questId: string
+}
