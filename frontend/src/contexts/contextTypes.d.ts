@@ -1,9 +1,9 @@
 
 interface AuthContextType {
     user: User | null;
-    login: (userData: User) => void;
+    login: (userData: User) => Promise<any>;
     logout: () => void;
-    register: (userData: User) => void;
+    register: (userData: User) => Promise<any>;
     authToken: string | null
   }
 

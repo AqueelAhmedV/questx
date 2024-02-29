@@ -1,10 +1,9 @@
 //@ts-nocheck
 
 import { Navigate, Route, Routes } from "react-router-dom"
-import { useAuth } from "../contexts/AuthContext"
-import { UnauthorizedPage } from "./Unauthorized"
+import { CmLanding } from "../pages/CmLanding"
 import QuestForm from "../pages/QuestForm"
-import { PrivateRoutes } from "./PrivateRoutes"
+
 
 
 export function CmRoutes() {
@@ -15,7 +14,8 @@ export function CmRoutes() {
     
     return (
         <Routes>
-            <Route path='home' element={<>CM</>} />
+            <Route path='home' element={<CmLanding/>} />
+            
             <Route path='create-quest' element={<QuestForm/>}/>
         </Routes>
     )

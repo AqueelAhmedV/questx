@@ -6,3 +6,5 @@ djangorestframework==3.13.1
 psycopg2-binary==2.9.3
 whitenoise==6.0.0
 dj-database-url==0.5.0
+django-rest-knox==4.2.0
+python-decouple==3.8

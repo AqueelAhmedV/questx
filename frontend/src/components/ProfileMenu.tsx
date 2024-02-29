@@ -50,6 +50,14 @@ export default function ProfileMenu() {
           </Button>
         </MenuHandler>
         <MenuList className="p-1">
+          <div className="w-full p-2 hover:ring-0 hover:outline-none">
+            <span className="capitalize text-lg font-medium text-gray-800 block">
+              {auth.user?.first_name}{" "}{auth.user?.last_name}
+              </span>
+            <span className="text-sm text-gray-600">
+              {auth.user?.email}
+            </span>
+          </div>
           {profileMenuItems.map(({ label, icon }, key) => {
             const isLastItem = key === profileMenuItems.length - 1;
             return (

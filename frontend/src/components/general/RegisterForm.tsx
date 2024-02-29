@@ -12,6 +12,7 @@ import {
     TabsHeader
 } from '@material-tailwind/react'
 import { Link } from 'react-router-dom'
+import ErrorMessage from '../ErrorMessage'
 
 export function RegisterForm({ formData, handleChange, setFormData, handleSubmit, error, isFormValid }) {
 
