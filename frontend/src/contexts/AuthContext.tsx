@@ -38,7 +38,6 @@ import { loginApi, registerApi } from '../api/authApi';
     const register = (userData: User) => {
       return registerApi(userData)
       .then(({ user, token }: any) => {
-       
           setUser(user)
           setAuthToken(token)
       })
@@ -47,6 +46,9 @@ import { loginApi, registerApi } from '../api/authApi';
     const logout = () => {
       setUser(null);
       setAuthToken(null)
+      localStorage.removeItem('user')
+      localStorage.removeItem('authToken')
+      window.location = '/'
     };
   
     // You might want to load user data from local storage or a server

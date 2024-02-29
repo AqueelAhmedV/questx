@@ -14,7 +14,7 @@ import {
     TabPanel,
 } from "@material-tailwind/react";
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
 import { useAuth } from "../contexts/AuthContext";
 import { RegisterForm } from "../components/general/RegisterForm";

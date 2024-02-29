@@ -17,9 +17,13 @@ export async function loginApi(email: string, password: string, userType: UserTy
             },
             body: JSON.stringify(loginData),
             credentials: 'include'
-        }).then((r) => r.json())
+        })
+        let data = await response.json()
         console.log(response)
-        return response;
+        if (response.status >= 400) {
+            throw data;
+        }
+        return data;
     } catch (error) {
         throw error;
     }

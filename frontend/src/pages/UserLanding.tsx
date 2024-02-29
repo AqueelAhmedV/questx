@@ -16,6 +16,7 @@ import { BACKEND_BASE_URL, profileMenuItems } from '../constants';
 import { LoadingSpinner } from '../components/Icons';
 import { tryViewTransition } from '../utils/dom';
 import { BasicLayout } from '../layouts/BasicLayout';
+import { searchQuests } from '../api/searchApi';
 
 
 export function UserLanding() {
@@ -24,8 +25,8 @@ export function UserLanding() {
     const { data, isLoading } = useQuery<QuestSearchResponse>(
       [searchText],
       async () => {
-        return fetch(`${BACKEND_BASE_URL}/search/quest?query=${searchText}`)
-        .then(r => r.json())
+        if (searchText)
+        return searchQuests(searchText)
       },
       {
         staleTime: 1000*60*60,

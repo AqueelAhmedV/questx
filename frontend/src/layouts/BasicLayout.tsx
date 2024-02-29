@@ -7,9 +7,9 @@ export const BasicLayout = ({ children }: { [key: string]: any }) => {
   // const { showNavbar } = useProfile()
 
   return (
-    <div className="flex flex-col max-h-screen items-center">
+    <div className="flex flex-col h-screen items-center">
       <NavbarDefault openDrawer={() => {}} />
-      <main className="flex-grow w-full mx-0 mt-5">
+      <main className="flex-grow h-full w-full mx-0 mt-5">
         {children}
       </main>
       {/* <footer className="bg-gray-800 text-white py-4">

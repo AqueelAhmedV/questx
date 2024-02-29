@@ -4,7 +4,7 @@ import { BACKEND_BASE_URL } from "../constants";
 export async function getQuests(
     authToken: string    
 ): Promise<GetQuestResponse | unknown> {
-    return fetch(`${BACKEND_BASE_URL}/quest/`, {
+    let response = await fetch(`${BACKEND_BASE_URL}/quest/`, {
         method: 'GET',
         headers: {
             'Authorization': `Token ${authToken}`,
@@ -12,12 +12,15 @@ export async function getQuests(
         },
         credentials: 'include',
     })
-    .then(r => r.json())
-    .catch(console.log)
+    let data = await response.json()
+    if (response.status >= 400) {
+        throw data;
+    }
+    return data;
 }
 
 export async function createQuest(questInfo: CreateQuestInfo, authToken: string) {
-    return fetch(`${BACKEND_BASE_URL}/quests/`, {
+    let response = await fetch(`${BACKEND_BASE_URL}/quests/`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -26,5 +29,9 @@ export async function createQuest(questInfo: CreateQuestInfo, authToken: string)
         },
         body: JSON.stringify(questInfo)
     })
-    .then(r => r.json())
+    let data = await response.json()
+    if (response.status >= 400) {
+        throw data;
+    }
+    return data;
 }

@@ -150,7 +150,7 @@ class Quest(models.Model):
     quest_tags = models.JSONField(default=list, blank=True, null=True)
     exp_ids = models.JSONField(default=list, validators=[
         ExperienceValidator()
-    ], help_text=get_exp_choices())
+    ])
 
 
 

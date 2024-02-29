@@ -18,7 +18,10 @@ class QuestViewset(viewsets.ModelViewSet):
 
     serializer_class = QuestSerializer
 
+
     def get_queryset(self):
+        # if not self.request.user.user_type != 'cm':
+        #     raise Exception("Invalid user_type")
         return self.request.user.cm_profile.quests.all()
     
     def perform_create(self, serializer):

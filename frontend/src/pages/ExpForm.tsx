@@ -18,6 +18,8 @@ import {
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
+import { createExperience } from "../api/expApi";
+import { useAuth } from "../contexts/AuthContext";
 
  
 
@@ -46,13 +48,32 @@ export function ExpForm() {
         desc: "",
         date: "",
     });
-    const location = useLocation();
-    const { userType } = location.state || {};
+    
+    const { authToken } = useAuth()
 
     const handleSubmit= (e) =>{
       e.preventDefault();
       //backend
-      
+      createExperience({
+        agent_name: formData.name,
+        agent_phone: formData.phone,
+        agent_location: formData.location,
+        exp_date: formData.date,
+        exp_title: formData.title,
+        exp_type: formData.type,
+        exp_description: formData.desc,
+        exp_start_time: parseInt(formData.startTime),
+        exp_end_time: parseInt(formData.endTime)
+        
+      }, authToken)
+      .then((res) => {
+        
+        console.log(res)
+        // setTimeout(() => {
+        //     window.location = '/'
+        // }, 3000)
+      })
+      .catch(console.log)
     }
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -72,7 +93,7 @@ export function ExpForm() {
         return `${dd}/${mm}/${yyyy}`; // Format as "dd mm yyyy"
     };
       const handleDateChange = (e)=>{
-        setFormData((prevState) => ({ ...prevState, date: formatDate(e.target.value) }));
+        setFormData((prevState) => ({ ...prevState, date: e.target.value }));
         setDate(e.target.value);
       }
   
@@ -184,8 +205,12 @@ export function ExpForm() {
                                             )}
                                         </div>
                                         <div>
-                                            <Textarea 
-                                                label = "Task Description"
+                                            <Typography variant="h6" color="blue-gray" className="mb-1">
+                                                Task Description
+                                            </Typography>
+                                            <Textarea
+                                                variant="outlined"
+                                                label = ""
                                                 name = "desc"
                                                 value = {formData.desc}
                                                 size="lg"
@@ -279,7 +304,7 @@ export function ExpForm() {
                                 </form>
                             </TabPanel>
                             <TabPanel value ="activity" className="p-0">
-                            <form className="mt-12 flex flex-col gap-4" onSubmit = {handleSubmit}>
+                            <form className="mt-12 flex flex-col gap-4" onKeyDown={(e) => e.preventDefault()} onSubmit = {handleSubmit}>
                                     <div className="mb-1 flex flex-col gap-4">
                                         <div>
                                             <Typography variant="h6" color="blue-gray" className="mb-1">
@@ -358,9 +383,11 @@ export function ExpForm() {
                                             )}
                                         </div>
                                         <div>
+                                            <Typography variant="h6" color="blue-gray" className="mb-1">
+                                                Activity Description
+                                            </Typography>
                                             <Textarea 
-                                                label = "Activity Description"
-                                                varient= 'outlined'
+                                                variant= 'outlined'
                                                 name = "desc"
                                                 value = {formData.desc}
                                                 size="lg"
