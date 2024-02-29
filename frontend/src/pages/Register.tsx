@@ -1,23 +1,10 @@
-// @ts-nocheck
-import {
-    Card,
-    Input,
-    CardBody,
-    CardHeader,
-    Checkbox,
-    Button,
-    Typography,
-    Tabs,
-    TabsHeader,
-    TabsBody,
-    Tab,
-    TabPanel,
-} from "@material-tailwind/react";
+// @ts-nocheck  
 import { useState } from "react";
 import { Link, Navigate, useLocation } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
 import { useAuth } from "../contexts/AuthContext";
 import { RegisterForm } from "../components/general/RegisterForm";
+
 // import { useProfile } from "../contexts/ProfileContext";
 
 
@@ -55,6 +42,10 @@ export const Register = () => {
             user_type: formData.userType,
             password: formData.password
         })
+        .catch((err)=>{
+          setError(err)
+          console.log(err);
+        })
       }
       
     }
@@ -80,7 +71,6 @@ export const Register = () => {
             handleSubmit={handleSubmit}
             error={error}
             isFormValid={isFormValid}/>
-        
         </div>
   );
 }
