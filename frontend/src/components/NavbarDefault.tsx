@@ -10,11 +10,16 @@ import {
   Drawer,
 } from "@material-tailwind/react";
 import ProfileMenu from "./ProfileMenu";
+import { useAuth } from "../contexts/AuthContext";
+import { navbarLinks } from "../constants";
 
 
  
-export default function NavbarDefault(props) {
+export function NavbarDefault({ openDrawer }) {
   const [openNav, setOpenNav] = useState(false);
+
+  const { user } = useAuth()
+  const isLoggedIn = !!user
  
   React.useEffect(() => {
     const navFunction = () => window.innerWidth >= 960 && setOpenNav(false);
@@ -27,12 +32,9 @@ export default function NavbarDefault(props) {
     } 
   }, []);
 
-  const handleOpen = (value) => {
-    setOpenSide(openSide === value ? 0 : value);
-  };
   
  
-  const navList = props.list.map((element)=> (
+  const navList = navbarLinks.map((element)=> (
     <Typography
         as="li"
         variant="small"
@@ -64,7 +66,7 @@ export default function NavbarDefault(props) {
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
         <Typography
           as="a"
-          href="#"
+          href="/"
           className="mr-4 cursor-pointer py-1.5 font-medium"
         >
           <Typography variant="h5" color="blue-gray">
@@ -77,24 +79,27 @@ export default function NavbarDefault(props) {
           </ul>
         </div>
         <div className="flex items-center">
-        {props.isLoggedIn ? 
-          (
-              <ProfileMenu profileMenuItems= {props.profileMenuItems}/>
-
-          ):
-          (
-            <div className="flex items-center gap-x-1">
+        {isLoggedIn && <ProfileMenu />}
+        {!isLoggedIn && (
+            <div className="flex items-center gap-x-2">
+              <Button 
+              variant='outlined'
+              size="sm"
+              className="hidden lg:inline-block"
+              onClick={() => window.location = '/login'}
+              >
+                <span>Login</span>
+              </Button>
               <Button
                 variant="gradient"
                 size="sm"
                 className="hidden lg:inline-block"
-                onClick = {props.openDrawer}
+                onClick={() => window.location = '/register'}
               >
                 <span>Join Us</span>
               </Button>
             </div>
-          )
-        }
+        )}
         <IconButton
           variant="text"
           className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
@@ -138,20 +143,19 @@ export default function NavbarDefault(props) {
       </div>
       <Collapse open={openNav}>
         <div className="container mx-auto">
-          <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+          <ul className="mt-2 ml-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
             {navList}
           </ul>
-          {
-            !props.isLoggedIn ? (
+          {!isLoggedIn && (
               <div className="flex items-center gap-x-1">
                 <Button
                   fullWidth variant="gradient" size="sm" className=""
-                  onClick = {props.openDrawer}
+                  onClick = {() => window.location = '/register'}
                 >
                   <span>Join Us</span>
                 </Button>
               </div>
-            ): null
+            )
           }
         </div>
       </Collapse>

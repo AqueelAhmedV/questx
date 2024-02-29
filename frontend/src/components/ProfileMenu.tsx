@@ -14,13 +14,18 @@ import {
   import {
     ChevronDownIcon
   } from "@heroicons/react/24/solid";
+import { profileMenuItems } from "../constants";
+import { useAuth } from "../contexts/AuthContext";
   
 
-export default function ProfileMenu({profileMenuItems}) {
+export default function ProfileMenu() {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-   
+    const auth = useAuth()
+    function handleLogout() {
+      auth.logout()
+    }
+
     const closeMenu = () => setIsMenuOpen(false);
-   
     return (
       <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
         <MenuHandler>
@@ -50,7 +55,7 @@ export default function ProfileMenu({profileMenuItems}) {
             return (
               <MenuItem
                 key={label}
-                onClick={closeMenu}
+                onClick={isLastItem && handleLogout}
                 className={`flex items-center gap-2 rounded ${
                   isLastItem
                     ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"

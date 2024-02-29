@@ -7,11 +7,18 @@ import {
     Checkbox,
     Button,
     Typography,
+    Tabs,
+    TabsHeader,
+    TabsBody,
+    Tab,
+    TabPanel,
 } from "@material-tailwind/react";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
 import { useAuth } from "../contexts/AuthContext";
+import { RegisterForm } from "../components/general/RegisterForm";
+import { useProfile } from "../contexts/ProfileContext";
 
 
 export const Register = () => {
@@ -21,17 +28,20 @@ export const Register = () => {
         email : "",
         password: "",
         password2: "",
+        userType: "member"
     })
     const [error, setError] = useState({
         firstName : "",
         email : "",
         password : "",
-        password2 : ""
+        password2 : "",
     });
     const location = useLocation();
-    const { userType } = location?.state as UserType;
 
     const auth = useAuth();
+    const { setShowNavbar } = useProfile()
+
+    setShowNavbar(false)
 
     const handleSubmit= (e) =>{
       e.preventDefault();
@@ -44,7 +54,7 @@ export const Register = () => {
             first_name: formData.firstName,
             last_name: formData.lastName,
             email: formData.email,
-            user_type: userType,
+            user_type: formData.userType,
             password: formData.password
         })
       }
@@ -61,137 +71,15 @@ export const Register = () => {
     }
 
     return (
-        <div className="container mx-auto">
-            <Card color="transparent" shadow className="my-2  w-max mx-auto max-w-full">
-                <CardHeader
-                        floated={false}
-                        shadow={false}
-                        className="m-0 grid place-items-center  text-center"
-                    >
-                    <Typography variant="h4" color="blue-gray" className="w-max">
-                        Sign Up
-                    </Typography>
-                    <Typography color="gray" className="mt-1 font-normal w-max">
-                        Nice to meet you! Enter your details to Sign up.
-                    </Typography>
-                </CardHeader>
-                <CardBody>
-                <form className="mt-3 mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit = {handleSubmit}>
-                    <div className="mb-1 flex flex-col gap-4">
-                        <div>
-                            <Typography variant="h6" color="blue-gray" className="mb-1">
-                                First Name
-                            </Typography>
-                            <Input
-                                name = "firstName"
-                                value = {formData.firstName}
-                                size="lg"
-                                placeholder="John"
-                                className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                                labelProps={{
-                                    className: "before:content-none after:content-none",
-                                }}
-                                onChange = {handleChange}
-                            />
-                            {error.firstName && (
-                                <ErrorMessage error= {error.firstName}/>
-                            )}
-                        </div>
-                        <div>
-                            <Typography variant="h6" color="blue-gray" className="mb-1">
-                                Last Name
-                            </Typography>
-                            <Input
-                                name = "lastName"
-                                value = {formData.lastName}
-                                size="lg"
-                                placeholder="Doe"
-                                className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                                labelProps={{
-                                    className: "before:content-none after:content-none",
-                                }}
-                                onChange = {handleChange}
-                            />
-                        </div>
-                        <div>
-                            <Typography variant="h6" color="blue-gray" className="mb-1">
-                                Your Email
-                            </Typography>
-                            <Input
-                                name = "email"
-                                value = {formData.email}
-                                size="lg"
-                                placeholder="name@mail.com"
-                                className=" !border-blue-gray-200 focus:!border-gray-900"
-                                labelProps={{
-                                    className: "before:content-none after:content-none",
-                                }}
-                                onChange = {handleChange}
-                            />
-                            {error.email && (
-                                <ErrorMessage error= {error.email}/>
-                            )}
-                        </div>
-                        <div>
-                            <Typography variant="h6" color="blue-gray" className="mb-1">
-                                Password
-                            </Typography>
-                            <Input
-                                name = "password"
-                                value = {formData.password}
-                                type="password"
-                                size="lg"
-                                placeholder="********"
-                                className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                                labelProps={{
-                                className: "before:content-none after:content-none",
-                                }}
-                                onChange = {handleChange}
-                            />
-                            {error.password && (
-                                <ErrorMessage error= {error.password}/>
-                            )}
-                        </div>
-                        
-                        <div>
-                            <Typography variant="h6" color="blue-gray" className="mb-1">
-                                Confirm Password
-                            </Typography>
-                            <Input
-                                name = "password2"
-                                value = {formData.password2}
-                                type="password"
-                                size="lg"
-                                placeholder="********"
-                                className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                                labelProps={{
-                                className: "before:content-none after:content-none",
-                                }}
-                                
-                                onChange = {handleChange}
-                                error = {error.password2 !=="" ? true : false}
-                            />
-                            {error.password2 && (
-                                <ErrorMessage error= {error.password2}/>
-                            )}
-                        </div>
-                    </div>
-                    <Button type="submit" className="mt-6" fullWidth  disabled={!isFormValid()}>
-                        Sign Up
-                    </Button>
-                    <Typography color="gray" className="mt-4 text-center font-normal">
-                    Already have an account?{" "}
-                    <Link to = '/login'
-                        state ={{userType}}
-                        className="font-medium text-gray-900"
-                    >
-                        Sign in
-                    </Link>
-                    </Typography>
-                </form>
-                </CardBody>
-                
-            </Card>
+        <div className="container mx-auto">         
+            <RegisterForm 
+            setFormData={setFormData}
+            formData={formData} 
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            error={error}
+            isFormValid={isFormValid}/>
+        
         </div>
   );
 }

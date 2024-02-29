@@ -5,7 +5,7 @@ import {
     Typography,
 } from '@material-tailwind/react'
 
-const Main = ()=>{
+export function HeroSection() {
     return (
         <>
             <div className="container  flex">
@@ -25,5 +25,3 @@ const Main = ()=>{
         </>
     )
 }
-
-export default Main;

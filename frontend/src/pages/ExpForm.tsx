@@ -69,7 +69,7 @@ export function ExpForm() {
     }
   
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto overflow-auto h-fit">
             <Card color="transparent" shadow={true} className="my-2 mx-auto w-full max-w-[27rem]">
                 <CardHeader
                     floated={false}

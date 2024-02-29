@@ -7,28 +7,40 @@ import {
     Checkbox,
     Button,
     Typography,
+    Tabs,
+    TabsHeader,
+    Tab
 } from "@material-tailwind/react";
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
+import { useAuth } from "../contexts/AuthContext";
+import { useProfile } from "../contexts/ProfileContext";
 
 
 export const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [userType, setUserType] = useState('member')
     const [error, setError] = useState("");
-    const location = useLocation();
-    const { userType } = location.state || {};
+ 
+     const auth = useAuth()
+     const { setShowNavbar } = useProfile()
+     setShowNavbar(false)
 
     const handleSubmit= (e) =>{
       e.preventDefault();
-    
+
       //backend code
-      if(email === "" && password===""){
+      if(email !== "" && password !==""){
         setError("");
+        auth.login({
+            email,
+            password,
+            user_type: userType
+        })
         console.log("User logined");
-      }
-      else{
+      } else {
         setError("Invalid email or password");
       }
       
@@ -38,9 +50,10 @@ export const Login = () => {
       console.log(password.value.length);
       return password.value.length >=8;
     }
-
+    if (auth.user)
+        return <Navigate to={`/${auth.user.user_type}/home`} />
     return (
-        <div className="container mx-auto">
+        <div className="container">
             <Card className="my-2 mx-auto w-max max-w-full" color="transparent" shadow>
                 <CardHeader
                         floated={false}
@@ -56,9 +69,9 @@ export const Login = () => {
                 </CardHeader>
                 <CardBody >
                     <form className="mt-3 mb-2 w-80 max-w-screen-lg sm:w-calc(100vw-2rem)" onSubmit = {handleSubmit}>
-                        <div className="mb-1 flex flex-col gap-6">
+                        <div className="mb-1 flex flex-col gap-3">
                             <Typography variant="h6" color="blue-gray" className="-mb-3">
-                            Your Email
+                            Email
                             </Typography>
                             <Input
                             name = "email"
@@ -86,17 +99,32 @@ export const Login = () => {
                             }}
                             onChange = {(e) => {setPassword(e.target.value)}}
                         />
+                        <Typography variant="h6" color="blue-gray" className="-mb-3">
+                            User Type
+                        </Typography>
+                        <Tabs className='min-w-max' value={userType}>
+                            <TabsHeader className='min-w-fit'>
+                                <Tab className='min-w-fit' value="member" onClick={() => setUserType('member')}>
+                                    Member
+                                </Tab>
+                                <Tab className='min-w-fit' value="cm" onClick={() => setUserType('cm')}>
+                                    Community Manager
+                                </Tab>
+                            </TabsHeader>
+                        </Tabs>
                         </div>
                         {error && (
                             <ErrorMessage error = {error}/>
                         )}
+                        <div>
+                        
+                        </div>
                         <Button type="submit" className="mt-6" fullWidth disabled = {!isFormValid}>
                         Sign In
                         </Button>
                         <Typography color="gray" className="mt-4 text-center font-normal">
                         Dont have an account?{" "}
                         <Link to = '/register'
-                            state ={{userType}} 
                             className="font-medium text-gray-900"
                         >
                             Sign Up

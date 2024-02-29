@@ -11,10 +11,10 @@ import {
 } from "@material-tailwind/react";
 
 
-export default function LoginSideBar() {
+export default function RegisterModal() {
 
   return (
-    <>
+    <div className="w-fit flex justify-center items-center p-2 rounded-lg">
         <Card
           color="transparent"
           shadow={false}
@@ -63,6 +63,6 @@ export default function LoginSideBar() {
             </CardFooter>
         </Card>
         </Card>
-    </>
+    </div>
   );
 }

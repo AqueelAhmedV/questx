@@ -1,5 +1,7 @@
+// @ts-nocheck
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { registerApi } from '../api/authApi';
+import { loginApi, registerApi } from '../api/authApi';
+
 
   
   // Create the AuthContext
@@ -17,17 +19,28 @@ import { registerApi } from '../api/authApi';
   // AuthProvider component
   export const AuthProvider: React.FC<ContextProviderProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
+    const [authToken, setAuthToken] = useState<string | null>(null)
   
     // Simulate authentication
+    
+    
     const login = (userData: User) => {
-      
-      setUser(userData);
+      loginApi(userData.email, userData.password, userData.user_type)
+      .then(({ user, token }) => {
+        setUser(user)
+        setAuthToken(token)
+        // window.location = `${user.user_type}/home`
+      })
+      .catch(console.log)
+      // setUser(userData);
     };
 
     const register = (userData: User) => {
       registerApi(userData)
-      .then((d) => {
-        console.log('inside context', d)
+      .then(({ user, token }: any) => {
+          setUser(user)
+          setAuthToken(token)
+          // window.location = `${user.user_type}/home`
       }).catch(console.log)
     }
   
@@ -42,6 +55,14 @@ import { registerApi } from '../api/authApi';
         setUser(JSON.parse(savedUser) as User);
       }
     }, []);
+
+    // useEffect(() => {
+    //   if (!user) return;
+    //   if (['/login', '/register'].includes(window.location.pathname)) {
+    //       // @ts-ignore
+    //       window.location = redirectLookup[user.user_type]
+    //     }
+    // }, [window.location, user])
   
     // Save user data to local storage when user changes
     useEffect(() => {
@@ -53,7 +74,7 @@ import { registerApi } from '../api/authApi';
     }, [user]);
   
     return (
-      <AuthContext.Provider value={{ user, login, logout, register }}>
+      <AuthContext.Provider value={{ user, login, logout, register, authToken }}>
         {children}
       </AuthContext.Provider>
     )

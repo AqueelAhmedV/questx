@@ -15,9 +15,10 @@ import { Card, CardBody, CardHeader, MaterialTailwindTheme } from '@material-tai
 import { BACKEND_BASE_URL, profileMenuItems } from '../constants';
 import { LoadingSpinner } from '../components/Icons';
 import { tryViewTransition } from '../utils/dom';
+import { BasicLayout } from '../layouts/BasicLayout';
 
 
-const UserLanding = () => {
+export function UserLanding() {
     const [searchText, setSearchText] = useState('')
     const [inputText, setInputText] = useState('')
     const { data, isLoading } = useQuery<QuestSearchResponse>(
@@ -50,23 +51,24 @@ const UserLanding = () => {
 
     const questResults = useMemo(() => data?.quests?.sort((a, b) => b.score - a.score).map((quest) => {
       return (
-          <Card key={quest.quest_id} 
-          className='p-3 mb-2 shadow-sm hover:shadow-md' onClick={handleQuestClick}>
-              <span className='font-medium text-md text-slate-400'>
+          <div id={quest.quest_id} key={quest.quest_id} tabIndex={0}
+          className='p-3 mb-2 shadow-sm hover:shadow-md cursor-pointer border rounded-md grid gap-2' 
+          onClick={handleQuestClick}>
+              <span className='font-semibold text-md text-gray-700'>
                   {quest.quest_title}
               </span>
-              <span className='text-slate-300'>
+              <span className='text-gray-500'>
                   {quest.quest_description}
               </span>
-          </Card>
+          </div>
       )
     }), [data?.quests])
 
     
     return (
-        <>
-            <NavbarDefault list= {[]} isLoggedIn = {true} profileMenuItems= {profileMenuItems}/>
-            <Card shadow className='mx-auto max-w-screen-xl h-[85vh]'>
+        <div className='h-full w-full flex justify-center items-center flex-col'>
+            {/* <NavbarDefault list= {[]} isLoggedIn = {true} profileMenuItems= {profileMenuItems}/>
+            <div className='mx-auto h-screen max-w-screen-xl p-2'> */}
             <form onSubmit={handleSearchSubmit}>
                 <div className='flex flex-wrap md:flex-nowrap py-2 px-10 gap-2'>
                   
@@ -78,19 +80,18 @@ const UserLanding = () => {
                         label="Type here..."
                         className=" min-w-[288px]"
                     />
-                    <Button type='submit' size="md" className="w-[100px] rounded-lg mx-auto">
+                    <Button type='submit' size="md" className="invisible md:visible w-[100px] rounded-lg mx-auto">
                         Search
                     </Button>
                 </div>
                 </form>
-                
-                <CardBody className='h-[90%]'>
-                    {isLoading && <LoadingSpinner className={'animate-spin size-10'}/>}
-                    {!isLoading && questResults}
-                </CardBody>
-            </Card>
-        </>
+                <div className='grid grid-cols-4 h-[76vh] px-8'>
+                  <div className='col-span-1'></div>
+                <div className='flex-col  flex h-full overflow-auto col-span-3' style={{ scrollbarWidth: 'none' }}>
+                      {isLoading && <LoadingSpinner className={'animate-spin size-10'}/>}
+                      {!isLoading && questResults}
+                </div>
+                </div>
+        </div>
     )
 }
-
-export default UserLanding;
