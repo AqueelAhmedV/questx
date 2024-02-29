@@ -38,9 +38,14 @@ export async function registerApi(userData: Partial<User>) {
             },
             body: JSON.stringify(userData),
             credentials: 'include'
-        }).then((r) => r.json())
-        console.log(response)
-        return response;
+        })
+        let data = await response.json()
+        if(response.status>=400){
+            throw data;
+        } 
+        // .then((r) => r.json())
+        console.log(response, data)
+        return data;
     } catch (error) {
         throw error;
     }

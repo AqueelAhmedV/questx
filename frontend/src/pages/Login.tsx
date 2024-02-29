@@ -39,7 +39,7 @@ export const Login = () => {
         })
         .catch((err) => {
             console.log(err)
-            // setError(err)
+            setError('Invalid email Id or password')
         })
         
         console.log("User logined");

@@ -140,7 +140,6 @@ export function RegisterForm({ formData, handleChange, setFormData, handleSubmit
                                 }}
                                 
                                 onChange = {handleChange}
-                                error = {error.password2 !=="" ? true : false}
                             />
                             {error.password2 && (
                                 <ErrorMessage error= {error.password2}/>
