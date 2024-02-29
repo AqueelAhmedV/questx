@@ -31,10 +31,12 @@ export function ExpForm() {
         type : "task",
         title: "",
         desc: "",
-        duration: 0,
-        preferredTime: "",
+        date: "",
+        startTime: "",
+        endTime: "",
         rewardOrSalary: 0,
     })
+    const [date, setDate]= useState("");
     const [error, setError] = useState({
         name : "",
         location : "",
@@ -42,7 +44,7 @@ export function ExpForm() {
         type : "",
         title: "",
         desc: "",
-        preferredTime: "",
+        date: "",
     });
     const location = useLocation();
     const { userType } = location.state || {};
@@ -52,37 +54,32 @@ export function ExpForm() {
       //backend
       
     }
-
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prevState) => ({ ...prevState, [name]: value }));
+        if(name==="startTime" || name==="endTime"){
+            const hr= (value.split(':'))[0];
+            setFormData((prevState) => ({ ...prevState, [name]: (hr+":00") }));
+        }
+        else{
+            setFormData((prevState) => ({ ...prevState, [name]: value }));
+        }
       };
-
-    const isFormValid = () => {
-        return (formData.name && 
-            formData.location && 
-            formData.title && 
-            formData.type && 
-            formData.preferredTime && 
-            formData.duration &&
-            formData.rewardOrSalary);
-    }
+      const formatDate = (inputDate) => {
+        const parts = inputDate.split('-'); // Split the input value by hyphens
+        const dd = String(parts[2]).padStart(2, '0'); // Extract day and ensure two digits with leading zero if needed
+        const mm = String(parts[1]).padStart(2, '0'); // Extract month and ensure two digits with leading zero if needed
+        const yyyy = parts[0]; // Extract year
+        return `${dd}/${mm}/${yyyy}`; // Format as "dd mm yyyy"
+    };
+      const handleDateChange = (e)=>{
+        setFormData((prevState) => ({ ...prevState, date: formatDate(e.target.value) }));
+        setDate(e.target.value);
+      }
   
   return (
-    <div className="container mx-auto overflow-auto h-fit">
+    <div className="container mx-auto  h-auto">
             <Card color="transparent" shadow={true} className="my-2 mx-auto w-full max-w-[27rem]">
-                <CardHeader
-                    floated={false}
-                    shadow={false}
-                    className="m-0 grid place-items-center  text-center"
-                >
-                    <Typography variant="h4" color="blue-gray" className="w-max">
-                        Sign Up
-                    </Typography>
-                    <Typography color="gray" className="mt-1 font-normal">
-                        Nice to meet you! Enter your details to Sign up.
-                    </Typography>
-                </CardHeader>
+                
                 <CardBody>
                     <Tabs value = {formData.type} className= "overflow-visible">
                         <TabsHeader className="relative z-0 ">
@@ -200,39 +197,62 @@ export function ExpForm() {
                                         </div>
                                         <div>
                                             <Typography variant="h6" color="blue-gray" className="mb-1">
-                                                Duration
+                                                Date
                                             </Typography>
                                             <Input
-                                                name = "duration"
-                                                value = {formData.duration}
-                                                type="number"
+                                                name = "date"
+                                                value = {date}
+                                                type= "date"
                                                 size="lg"
-                                                placeholder=""
                                                 className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                                                labelProps={{
+                                                    className: "before:content-none after:content-none",
+                                                }}
+                                                onChange = {handleDateChange}
+                                            />
+                                            {error.date && (
+                                                <ErrorMessage error= {error.date}/>
+                                            )}
+                                        </div>
+                                        <div className="flex">
+                                        <div>
+                                            <Typography variant="h6" color="blue-gray" className="mb-1">
+                                                Start Time
+                                            </Typography>
+                                            <Input
+                                                name = "startTime"
+                                                value = {formData.startTime}
+                                                type= "time"
+                                                className=" !border-t-blue-gray-200 focus:!border-t-gray-900 max-w-[90%]"
                                                 labelProps={{
                                                     className: "before:content-none after:content-none",
                                                 }}
                                                 onChange = {handleChange}
                                             />
-                                            {error.duration && (
-                                                <ErrorMessage error= {error.duration}/>
+                                            {error.startTime && (
+                                                <ErrorMessage error= {error.startTime}/>
                                             )}
                                         </div>
                                         <div>
-                                            <Select
-                                                label = "Preferred Time to work"
-                                                 name= "preferredTime"
-                                                 value= {formData.preferredTime}
-                                                 onChange = {(val)=> (setFormData((prevState) => ({ ...prevState, preferredTime: val })))}
-                                            >
-                                                <Option value="">Select an option</Option>
-                                                <Option value="day">Day Time</Option>
-                                                <Option value="night">Night Time</Option>
-                                            </Select>
-                                            {error.preferredTime && (
-                                                <ErrorMessage error= {error.preferredTime}/>
+                                            <Typography variant="h6" color="blue-gray" className="mb-1">
+                                                End Time
+                                            </Typography>
+                                            <Input
+                                                name = "endTime"
+                                                value = {formData.endTime}
+                                                type= "time"
+                                                className=" !border-t-blue-gray-200 focus:!border-t-gray-900 max-w-[90%]"
+                                                labelProps={{
+                                                    className: "before:content-none after:content-none",
+                                                }}
+                                                onChange = {handleChange}
+                                            />
+                                            {error.endTime && (
+                                                <ErrorMessage error= {error.endTime}/>
                                             )}
                                         </div>
+                                        </div>
+                                        
                                         <div>
                                             <Typography variant="h6" color="blue-gray" className="mb-1">
                                                 Reward
@@ -242,7 +262,6 @@ export function ExpForm() {
                                                 value = {formData.rewardOrSalary}
                                                 type="number"
                                                 size="lg"
-                                                placeholder=""
                                                 className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                                                 labelProps={{
                                                     className: "before:content-none after:content-none",
@@ -353,38 +372,60 @@ export function ExpForm() {
                                         </div>
                                         <div>
                                             <Typography variant="h6" color="blue-gray" className="mb-1">
-                                                Duration
+                                                Date
                                             </Typography>
                                             <Input
-                                                name = "duration"
-                                                value = {formData.duration}
-                                                type="number"
+                                                name = "date"
+                                                value = {date}
+                                                type= "date"
                                                 size="lg"
-                                                placeholder=""
                                                 className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                                                labelProps={{
+                                                    className: "before:content-none after:content-none",
+                                                }}
+                                                onChange = {handleDateChange}
+                                            />
+                                            {error.date && (
+                                                <ErrorMessage error= {error.date}/>
+                                            )}
+                                        </div>
+                                        <div className="flex">
+                                        <div>
+                                            <Typography variant="h6" color="blue-gray" className="mb-1">
+                                                Start Time
+                                            </Typography>
+                                            <Input
+                                                name = "startTime"
+                                                value = {formData.startTime}
+                                                type= "time"
+                                                className=" !border-t-blue-gray-200 focus:!border-t-gray-900 max-w-[90%]"
                                                 labelProps={{
                                                     className: "before:content-none after:content-none",
                                                 }}
                                                 onChange = {handleChange}
                                             />
-                                            {error.duration && (
-                                                <ErrorMessage error= {error.duration}/>
+                                            {error.startTime && (
+                                                <ErrorMessage error= {error.startTime}/>
                                             )}
                                         </div>
                                         <div>
-                                            <Select
-                                                label = "Preferred Time to work"
-                                                 name= "preferredTime"
-                                                 value= {formData.preferredTime}
-                                                 onChange = {(val)=> (setFormData((prevState) => ({ ...prevState, preferredTime: val })))}
-                                            >
-                                                <Option value="">Select an option</Option>
-                                                <Option value="day">Day Time</Option>
-                                                <Option value="night">Night Time</Option>
-                                            </Select>
-                                            {error.preferredTime && (
-                                                <ErrorMessage error= {error.preferredTime}/>
+                                            <Typography variant="h6" color="blue-gray" className="mb-1">
+                                                End Time
+                                            </Typography>
+                                            <Input
+                                                name = "endTime"
+                                                value = {formData.endTime}
+                                                type= "time"
+                                                className=" !border-t-blue-gray-200 focus:!border-t-gray-900 max-w-[90%]"
+                                                labelProps={{
+                                                    className: "before:content-none after:content-none",
+                                                }}
+                                                onChange = {handleChange}
+                                            />
+                                            {error.endTime && (
+                                                <ErrorMessage error= {error.endTime}/>
                                             )}
+                                        </div>
                                         </div>
                                         <div>
                                             <Typography variant="h6" color="blue-gray" className="mb-1">

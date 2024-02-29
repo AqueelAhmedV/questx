@@ -1,9 +1,13 @@
+//@ts-nocheck
+
 import { Outlet, Navigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 
 export function PrivateRoutes() {
-    const auth = useAuth()
+    // const auth = useAuth()
+    // console.log(auth.user, "here");
+    let user= JSON.parse(localStorage.getItem("user"))
     return(
-        auth.user ? <Outlet/> : <Navigate to="/login"/>
+        user ? <Outlet /> : <Navigate to="/login"/>
     )
 }
