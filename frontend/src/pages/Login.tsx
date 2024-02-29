@@ -26,7 +26,7 @@ export const Login = () => {
  
      const auth = useAuth()
      const { setShowNavbar } = useProfile()
-     setShowNavbar(false)
+     //setShowNavbar(false)
 
     const handleSubmit= (e) =>{
       e.preventDefault();
