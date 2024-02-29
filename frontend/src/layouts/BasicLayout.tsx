@@ -1,6 +1,8 @@
 import React from 'react';
 import { NavbarDefault } from '../components/NavbarDefault';
 import { useProfile } from '../contexts/ProfileContext';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const BasicLayout = ({ children }: { [key: string]: any }) => {
 
@@ -17,6 +19,7 @@ export const BasicLayout = ({ children }: { [key: string]: any }) => {
           Footer
         </div>
       </footer> */}
+      <ToastContainer />
     </div>
   );
 };

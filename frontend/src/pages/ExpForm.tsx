@@ -20,6 +20,7 @@ import { Link, useLocation } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
 import { createExperience } from "../api/expApi";
 import { useAuth } from "../contexts/AuthContext";
+import { toast } from "react-toastify";
 
  
 
@@ -67,14 +68,17 @@ export function ExpForm() {
         
       }, authToken)
       .then((res) => {
-        
+        toast(`${formData.type} created successfully`, { type: "success" })
         console.log(res)
-        // setTimeout(() => {
-        //     window.location = '/'
-        // }, 3000)
+        setTimeout(() => {
+            window.location = '/'
+        }, 3000)
       })
-      .catch(console.log)
+      .catch((err) => {
+        toast(`Connection Error`, { type: "error"})
+      })
     }
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         if(name==="startTime" || name==="endTime"){
@@ -100,7 +104,6 @@ export function ExpForm() {
   return (
     <div className="container mx-auto  h-auto">
             <Card color="transparent" shadow={true} className="my-2 mx-auto w-full max-w-[27rem]">
-                
                 <CardBody>
                     <Tabs value = {formData.type} className= "overflow-visible">
                         <TabsHeader className="relative z-0 ">

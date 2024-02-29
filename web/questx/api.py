@@ -25,8 +25,12 @@ class QuestViewset(viewsets.ModelViewSet):
         return self.request.user.cm_profile.quests.all()
     
     def perform_create(self, serializer):
-        self.request
-        serializer.save(cm=self.request.user.cm_profile)
+        new_cm = None
+        if not hasattr(self.request.user, 'cm_profile'):
+            new_cm = ManagerProfile.objects.create(user=self.request.user, location='test_loc', organization='test_org')
+        else:
+            new_cm = self.request.user.cm_profile
+        serializer.save(cm=new_cm)
         
     
     

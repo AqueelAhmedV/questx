@@ -1,21 +1,22 @@
 //@ts-nocheck
 import { Card, Typography } from "@material-tailwind/react";
 import {} from "@heroicons/react"
+import { useMemo } from "react";
 
 
 const ScheduleList = ({list, deleteItem})=>{
-    const ItemCards = list.map((item, index)=>{
+    const ItemCards = useMemo(() => list.map((item: ExperienceInfo, index) => {
         return (
-            <Card className="p-2" key={item.id} color="transparent" shadow >
-                <div className="flex justify-between">
+            <Card className="p-2 cursor-pointer border shadow-md my-2" key={item.exp_id} color="transparent" shadow >
+                <div className="flex justify-between ">
                     <Typography>
-                        {item.title}
+                        {item.exp_title}
                     </Typography>
                     <div className="flex">
                         {
-                            item.type==="hotel" ? null : (
+                            item.exp_type==="hotel" ? null : (
                                 <Typography>
-                                    {`${item.startTime}:00 - ${item.endTime}:00`}
+                                    {`${item.exp_start_time}:00 - ${item.exp_end_time}:00`}
                                 </Typography>
                             )
                         }
@@ -26,11 +27,10 @@ const ScheduleList = ({list, deleteItem})=>{
                 </div>
             </Card>
         );
-    }   
-    );
+    }), [list, deleteItem]);
 
     return (
-        <div className=" pb-2 max-h-[50vh] overflow-y-scroll">
+        <div className=" pb-2 max-h-[50vh] overflow-y-auto">
             {ItemCards}
         </div>
     )

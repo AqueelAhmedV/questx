@@ -20,7 +20,6 @@ import { CmRoutes } from './routes/CmRoutes';
 import { MemberRoutes } from './routes/MemberRoutes';
 import { UnauthorizedPage } from './routes/Unauthorized';
 import { LandingRoutes } from './routes/LandingRoutes';
-import QuestForm from './pages/QuestForm';
 
 const queryClient = new QueryClient()
 
@@ -33,24 +32,17 @@ ReactDOM.render(
         <BasicLayout>
           <BrowserRouter>
             <Routes>
+              <Route element={<LandingRoutes />}>
+                <Route path='/' element={<App/>} exact/>
+              </Route>
+              <Route path='/register' element={<Register />}/>
+              <Route path='/login' element={<Login/>}/>
               <Route element={<PrivateRoutes/>}>
-                <Route path='/cm/*' element={<CmRoutes/>}/>
-                <Route path='/member/*' element={<MemberRoutes/>}/>
+                <Route path='member/*' element={<MemberRoutes/>}/>
+                <Route path='cm/*' element={<CmRoutes/>}/>
               </Route>
               <Route path='/expForm' element={<ExpForm />}/>
               <Route path='/unauthorized' element={<UnauthorizedPage/>}/>
-              <Route path='/register' element={<Register />}/>
-              <Route path='/login' element={<Login/>}/>
-              <Route element={<LandingRoutes />}>
-                <Route path='/' element={<App/>}/>
-              </Route>
-              
-              
-              {/* <Route path="cm/*" element = {<PrivateRoutes/>}>
-                <Route path='create-quest' element={<QuestForm/>}/>
-                <Route path='home' element={<>CM</>} />
-            </Route> */}
-              
             </Routes>
           </BrowserRouter>
           </BasicLayout>

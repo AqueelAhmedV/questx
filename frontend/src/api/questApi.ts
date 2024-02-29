@@ -20,7 +20,8 @@ export async function getQuests(
 }
 
 export async function createQuest(questInfo: CreateQuestInfo, authToken: string) {
-    let response = await fetch(`${BACKEND_BASE_URL}/quests/`, {
+    console.log("createQuest TOKEN", authToken)
+    let response = await fetch(`${BACKEND_BASE_URL}/quest/`, {
         method: 'POST',
         credentials: 'include',
         headers: {

@@ -65,6 +65,11 @@ type ExperienceInfo = CreateExperienceInfo & {
     exp_id: string
 }
 
+type QuestDetails = QuestInfo & {
+    exps: Array<ExperienceInfo>
+}
+
+type GetExperienceResponse = Array<ExperienceInfo>
 type GetQuestResponse = Array<QuestInfo>
 
 
