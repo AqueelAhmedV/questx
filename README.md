@@ -23,7 +23,12 @@ $PROJECT_ROOT
 ```
 ---
 
-### Get the Code
+### Hosted Website
+
+- Website Hosted on [this link](https://questx.onrender.com/)
+- Can have lag upto 1 minute as it is hosted on free tier
+- Credentials For User and Community Manager Auto-Filled for convenience
+
 
 #### For Backend
 
@@ -68,7 +73,7 @@ Download the `.env` file from [this link](https://drive.google.com/file/d/1qP4zf
 ```
 cd web
 python manage.py makemigrations
-python manage.py migrate
+python manage.py migrate --run-syncdb
 ```
 - Run Server
 
@@ -82,7 +87,7 @@ python manage.py runserver
 
 ```
 cd frontend/
-yarn
+yarn install
 ```
 - Run Vite
 
