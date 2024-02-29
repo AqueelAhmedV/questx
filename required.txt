@@ -6,3 +6,5 @@ djangorestframework
 psycopg2-binary
 whitenoise
 dj-database-url
+django-rest-knox
+python-decouple

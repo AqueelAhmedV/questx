@@ -1,4 +1,5 @@
 type UserType = 'member' | 'cm';
+type ExperienceType = 'activity' | 'task'
 
 interface User {
     first_name: string,
@@ -35,3 +36,33 @@ type QuestSearchResponseItem = {
 type QuestSearchResponse = {
     quests: Array<QuestSearchResponseItem>
 }
+
+type CreateQuestInfo = {
+    quest_date: string,
+    quest_title: string,
+    quest_duration: number,
+    quest_description: string,
+    exp_ids: Array<string>,
+}
+
+type QuestInfo = CreateQuestInfo & {
+    quest_id: string
+}
+
+type CreateExperienceInfo = {
+    exp_title: string,
+    exp_description: string,
+    exp_type: ExperienceType,
+    exp_date: string,
+    exp_start_time: number,
+    exp_end_time: number,
+    agent_name: string,
+    agent_phone: string,
+    agent_location: string
+}
+
+type ExperienceInfo = CreateExperienceInfo & {
+    expId: string
+}
+
+type GetQuestResponse = Array<QuestInfo>

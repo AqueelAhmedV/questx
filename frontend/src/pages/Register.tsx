@@ -18,7 +18,7 @@ import { Link, useLocation } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
 import { useAuth } from "../contexts/AuthContext";
 import { RegisterForm } from "../components/general/RegisterForm";
-import { useProfile } from "../contexts/ProfileContext";
+// import { useProfile } from "../contexts/ProfileContext";
 
 
 export const Register = () => {
@@ -39,9 +39,7 @@ export const Register = () => {
     const location = useLocation();
 
     const auth = useAuth();
-    const { setShowNavbar } = useProfile()
-
-    setShowNavbar(false)
+    
 
     const handleSubmit= (e) =>{
       e.preventDefault();
@@ -69,6 +67,9 @@ export const Register = () => {
     const isFormValid = () => {
         return formData.firstName && formData.email && formData.password && formData.password2
     }
+
+    if (auth.user)
+        return <Navigate to={`/${auth.user.user_type}/home`} />
 
     return (
         <div className="container mx-auto">         

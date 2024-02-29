@@ -15,7 +15,7 @@ import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
 import { useAuth } from "../contexts/AuthContext";
-import { useProfile } from "../contexts/ProfileContext";
+// import { useProfile } from "../contexts/ProfileContext";
 
 
 export const Login = () => {
@@ -25,9 +25,7 @@ export const Login = () => {
     const [error, setError] = useState("");
  
      const auth = useAuth()
-     const { setShowNavbar } = useProfile()
-     setShowNavbar(false)
-
+     
     const handleSubmit= (e) =>{
       e.preventDefault();
 
@@ -39,6 +37,11 @@ export const Login = () => {
             password,
             user_type: userType
         })
+        .catch((err) => {
+            console.log(err)
+            // setError(err)
+        })
+        
         console.log("User logined");
       } else {
         setError("Invalid email or password");

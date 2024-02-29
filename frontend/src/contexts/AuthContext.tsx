@@ -25,35 +25,38 @@ import { loginApi, registerApi } from '../api/authApi';
     
     
     const login = (userData: User) => {
-      loginApi(userData.email, userData.password, userData.user_type)
+      return loginApi(userData.email, userData.password, userData.user_type)
       .then(({ user, token }) => {
+        console.log( 'LOGIN',{user, token})
         setUser(user)
         setAuthToken(token)
-        // window.location = `${user.user_type}/home`
+        
       })
-      .catch(console.log)
       // setUser(userData);
     };
 
     const register = (userData: User) => {
-      registerApi(userData)
+      return registerApi(userData)
       .then(({ user, token }: any) => {
+       
           setUser(user)
           setAuthToken(token)
-          // window.location = `${user.user_type}/home`
-      }).catch(console.log)
+      })
     }
   
     const logout = () => {
       setUser(null);
+      setAuthToken(null)
     };
   
     // You might want to load user data from local storage or a server
     useEffect(() => {
       const savedUser = localStorage.getItem('user');
+      const savedAuthToken = localStorage.getItem('authToken')
       if (savedUser) {
         setUser(JSON.parse(savedUser) as User);
       }
+      if (savedAuthToken) setAuthToken(savedAuthToken)
     }, []);
 
     // useEffect(() => {
@@ -68,10 +71,12 @@ import { loginApi, registerApi } from '../api/authApi';
     useEffect(() => {
       if (user) {
         localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('authToken', authToken)
       } else {
         localStorage.removeItem('user');
+        localStorage.removeItem('authToken')
       }
-    }, [user]);
+    }, [user, authToken]);
   
     return (
       <AuthContext.Provider value={{ user, login, logout, register, authToken }}>
