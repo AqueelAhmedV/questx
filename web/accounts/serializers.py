@@ -18,8 +18,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         extra_kwargs = { 'password': {'write_only': True} }
 
     
-    from decouple import config
-    print(config('GEMINI_API_KEY'))
 
     def create(self, validated_data):
         user = CustomUser.objects.create_user(
@@ -45,11 +43,26 @@ class LoginSerializer(serializers.ModelSerializer):
         fields = ('email', 'password', 'user_type')
 
 
+
+
     def validate(self, data):
-        user = authenticate(**data)
-        if user and user.is_active:
-             return user
-        raise serializers.ValidationError("Incorrect Credentials")
+        email = data.get('email')
+        password = data.get('password')
+        user_type = data.get('user_type')
+
+        if email and password:
+            user = authenticate(email=email, password=password)
+
+            if user:
+                if user.is_active and user.user_type == user_type:
+                    return user
+                else:
+                    raise serializers.ValidationError("Incorrect user type")
+            else:
+                raise serializers.ValidationError("Incorrect credentials")
+        else:
+            raise serializers.ValidationError("Email and password are required")
+
     
 
     

@@ -5,7 +5,7 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.decorators import permission_classes
 
-from quest_search.utils import embed_query_string, get_pinecone_client
+from quest_search.utils import embed_query_string, get_pinecone_index
 from quest_search.serializers import QuestSearchSerializer
 
 
@@ -19,8 +19,7 @@ class QuestSearchAPI(generics.RetrieveAPIView):
         query = serializer.validated_data['query']
 
         try:
-            client = get_pinecone_client()
-            vdb_index = client.Index('questx')
+            vdb_index = get_pinecone_index()
             query_vector = embed_query_string(query=query)
             assert query_vector, "Query vector is None, GEMINI error"
             results = vdb_index.query(
@@ -43,4 +42,5 @@ class QuestSearchAPI(generics.RetrieveAPIView):
         
             return JsonResponse(res, safe=False)
         except Exception as e:
+            print(e)
             return JsonResponse({ 'err': "Internal Server Error" }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

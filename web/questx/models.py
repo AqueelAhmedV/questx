@@ -1,11 +1,13 @@
+from datetime import date
 from typing import Any
 from django.db import models
-from django.core.validators import RegexValidator, MinLengthValidator, EmailValidator, BaseValidator
+from django.core.validators import DecimalValidator, RegexValidator, MinLengthValidator, EmailValidator, BaseValidator
 
 from django.utils.translation import gettext as _
 from django.utils.crypto import get_random_string
 from django.core.exceptions import ValidationError
 from requests import delete
+from rest_framework.fields import MaxValueValidator
 from accounts.models import CustomUser
 
 def generate_model_id(prefix):
@@ -94,8 +96,16 @@ class Experience(models.Model):
     exp_description = models.CharField(max_length=512, validators=[
         MinLengthValidator(50, _('Please describe your task in atleast 50 characters'))
     ])
-    exp_duration = models.PositiveIntegerField()
-    exp_preferred_time = models.CharField(max_length=10, choices=DAYNIGHT_CHOICES, default='day')
+
+    exp_date = models.DateField(default=date.today)
+    exp_start_time = models.PositiveIntegerField(validators=[
+        MaxValueValidator(23, "Start time cannot exceed 23")
+    ], default=16)
+    exp_end_time = models.PositiveIntegerField(validators=[
+        MaxValueValidator(23, "End time cannot exceed 23")
+    ], default=18)
+    # exp_duration = models.PositiveIntegerField()
+    # exp_preferred_time = models.CharField(max_length=10, choices=DAYNIGHT_CHOICES, default='day')
     quest_id = models.CharField(max_length=10, blank=True, null=True)
     def save(self, *args, **kwargs):
         # Generate a new custom ID if it's not already set
@@ -135,11 +145,14 @@ class Quest(models.Model):
     quest_description = models.CharField(max_length=512, validators=[
         MinLengthValidator(20, _("Description should be minimum 20 characters"))
     ])
-    quest_duration = models.PositiveIntegerField()
+    quest_start_date = models.DateField(default=date.today)
+    quest_duration = models.DecimalField(decimal_places=1, max_digits=3)
     quest_tags = models.JSONField(default=list, blank=True, null=True)
     exp_ids = models.JSONField(default=list, validators=[
         ExperienceValidator()
     ], help_text=get_exp_choices())
+
+
 
     def delete(self) -> tuple[int, dict[str, int]]:
         Experience.objects.filter(exp_id__in=self.exp_ids).update(quest_id=None)
