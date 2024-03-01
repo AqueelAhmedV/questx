@@ -1,10 +1,11 @@
 {
     "builds": [{
         "src": "web/backend/wsgi.py",
-        "use": "@ardnt/vercel-python-wsgi",
+        "use": "@natanffs/vercel-python-wsgi",
         "config": { 
             "maxLambdaSize": "15mb",
-            "config": { "runtime": "python3.10" }
+            "config": { "runtime": "python3.9" },
+            "output": "/build"
         }
     }],
     "routes": [
