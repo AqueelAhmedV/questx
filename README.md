@@ -59,6 +59,10 @@ pip install -r requirements.txt
 poetry install
 ```
 
+- Setup Backend Environment Variables
+
+Download the `.env` file from [this link](https://drive.google.com/file/d/1qP4zfaSQKpI4aIJVJ83dMQrdrdKaOWW0/view?usp=sharing) and Paste the `.env` file inside `web/` 
+
 - Make Migrations
 
 ```
