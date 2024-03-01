@@ -39,3 +39,4 @@ include
 
 web/.env
 
+.vercel
