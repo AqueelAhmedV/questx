@@ -8,7 +8,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
-ALLOWED_HOSTS = [str(os.environ.get('YOUR_DOMAIN')), '.vercel.app']
+ALLOWED_HOSTS = [str(os.environ.get('YOUR_DOMAIN')), '.vercel.app', 'questx.onrender.com']
 
 STATIC_ROOT = BASE_DIR / 'static'
 
