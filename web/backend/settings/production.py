@@ -1,5 +1,5 @@
 from .base import * 
-from .developement import *
+from .development import *
 import os
 
 DEBUG = False
@@ -49,6 +49,6 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = 'DENY'
 
-WEBPACK_LOADER['DEFAULT']['CACHE'] = True
+# WEBPACK_LOADER['DEFAULT']['CACHE'] = True
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
