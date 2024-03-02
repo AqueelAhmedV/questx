@@ -27,8 +27,6 @@ $PROJECT_ROOT
 
 - Website Hosted on [this link](https://questx.onrender.com/)
 - Can have lag upto 1 minute as it is hosted on free tier
-- Credentials For User and Community Manager Auto-Filled for convenience
-
 
 #### For Backend
 
